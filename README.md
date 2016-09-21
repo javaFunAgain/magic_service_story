@@ -9,12 +9,12 @@
  I tu zonk - bo widać, że trzeba by wymyśleć co ten kod robi.
 ## Co ten kod robi do cholery?
 Łatwo widać (po nazwach), że autor miał na myśli ~~tesknąte za ojczyzną i ogólnie taki jakiś martkotny był~~,
- * pobieranie danych z jekiegos czegoś (pliku),
+ * pobieranie danych z jekiegosś czegoś (pliku),
  * wstępną selekcję ,
- * transormowanie (czyli pewnie parsowanie),
+ * transformowanie (czyli pewnie parsowanie),
  * śjakieś filtrowanie, 
  * śjakieś obliczenia (kij wie),
- * i na koniec transoromowanie do outputu
+ * i na koniec transforomowanie do outputu
   
 Dużo,  jak na jedną metodę.... Ale trzeba to ukonkretyzować.
 
@@ -37,21 +37,16 @@ Dane w 2016 łatwo zdobyć. Idziemy więc na stronę [Banku Danych Lokalnych](ht
   ## Teraz troche łatwiej to opisać
   
   
-  1. ```RawData rawData = dataCollector.collectData(input);```
+1. ```RawData rawData = dataCollector.collectData(input);```
   Bierzemy dane z pliku i wrzucamy do Listy Stringów (jest RAW).
-  2. ```List<RelevantData> relevantData = dataExtractor.extractRelevant(rawData);```
+2. ```List<RelevantData> relevantData = dataExtractor.extractRelevant(rawData);```
   Wstępnie selekcjonujemy tylko gminy wiejskie.
-  
-  3.  ```List<AccessibleDataFormat> accessibleData = dataTransformer.transformToAccessibleFormat(relevantData);```
+3.  ```List<AccessibleDataFormat> accessibleData = dataTransformer.transformToAccessibleFormat(relevantData);```
  Parsujemy to do jakiejśc obiektowej postaci  - {Wojewódzwto, Liczba imprez, Uczestnicy}
- 
-  4. ```List<AccessibleDataFormat> filteredData = dataSelector.filter(accessibleData);```
+4. ```List<AccessibleDataFormat> filteredData = dataSelector.filter(accessibleData);```
   Filtrujemy tylko przypadki gdzie było więcej niż 5 tysięcy imprez i odrzucamy POLSKA (to nie wojewódzwo!). 
-              
 5. ```List<GeneratedResult> generatedData = resultGenerator.generate(filteredData);```
 Z pozostałych zbieramy średnią.
-              return Optional.of(outputFormatter.formatOutput(generatedData));
-              
 6. ```return Optional.of(outputFormatter.formatOutput(generatedData));```
 I pięknie formatujemy wynik i wpychamy go w  Optionala. 
 Mamy zatem srędnią liczbę uczstników imprez w domach kultury, w województwach gdzie było
