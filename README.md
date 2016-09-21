@@ -2,7 +2,7 @@
 
 # Początek
 
-Zaczęło się od tego, że kolega *S* rozpoczął flame na forum [4programmers.net](http://forum.4programmers.net/Inzynieria_oprogramowania/276798-wstrzykiwanie_zaleznosci_a_testy_jednostkowe_-_zloty_srodek)
+Zaczęło się od tego, że kolega **S** rozpoczął flame na forum [4programmers.net](http://forum.4programmers.net/Inzynieria_oprogramowania/276798-wstrzykiwanie_zaleznosci_a_testy_jednostkowe_-_zloty_srodek)
 
 Podał taki kod:
 ```
@@ -47,7 +47,7 @@ Jakie są problemy:
 
 - Po drugie primo, nawet jak się te klasy napisze, wiadomo że kod nie zadziała - walnie NullPointerException, bo *dataCollector* będzie nullem. 
 Ok, pewnie autor miał jakiś framework do dependency injection co mu tam coś wstrzykiwał.  
-Moglibyśmy tutaj o jakies *CDI* albo *Springa() uzupełnić - ale to bez sensu, bo
+Moglibyśmy tutaj o jakies **CDI** albo **Springa** uzupełnić - ale to bez sensu, bo
 powszechnie wiadomo, że magia DI nie działa w piątki i zostaniemy, jak te głupki, nie dość, że z nullami, 
  to jeszcze będzie nam sie jakiś beans.xml pałętał (won z tym!).
 (Zakładamy złośliwie, że jest piątek przed pełnią księżyca - żaden @Autowired nie ma szans - trzeba to będzie zrobić lepiej).
@@ -61,7 +61,7 @@ autor wyjaśnia:
 > Co do handlingu to jest to szczegół, może jest tam rzucenie customowego wyjątku, może logowanie błędu, nie jest to jakoś specjalnie istotne co konkretnie się tam dzieje (nie chciałem zaciemniać obrazu), ale załóżmy że coś się dzieje i dobrze by było przetestować czy błąd jest obsługiwany poprawnie.
 
 No ale wiemy, że kłamie! No bo co za handling jak rzuca Optional.empty() i kończy.
-Nieładnie. Pewnie tylko pisze do *loga* - jak wszyscy - i to jest ta cała obsługa.
+Nieładnie. Pewnie tylko pisze do **loga** - jak wszyscy - i to jest ta cała obsługa.
       
   
 
