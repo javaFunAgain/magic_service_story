@@ -1,5 +1,15 @@
 package it.makes.me.angry;
 
+
+import it.makes.me.angry.data.*;
+import it.makes.me.angry.hell.GenerationException;
+import it.makes.me.angry.processors.*;
+import javaslang.collection.List;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.zip.DataFormatException;
+
 public class MagicService {
     private DataCollector dataCollector;
     private DataExtractor dataExtractor;

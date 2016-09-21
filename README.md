@@ -38,19 +38,37 @@ Dane w 2016 łatwo zdobyć. Idziemy więc na stronę [Banku Danych Lokalnych](ht
   
   
 1. ```RawData rawData = dataCollector.collectData(input);```
-  Bierzemy dane z pliku i wrzucamy do Listy Stringów (jest RAW).
+  Bierzemy dane z pliku i wrzucamy do wielkiego Stringa.
 2. ```List<RelevantData> relevantData = dataExtractor.extractRelevant(rawData);```
-  Wstępnie selekcjonujemy tylko gminy wiejskie.
+  Tokenizujemy Stringa do listy stringów wiersze, wyrzucamy wiersze nagłówkowe każdy wiersz tokenizujemy again (kolumny).
 3.  ```List<AccessibleDataFormat> accessibleData = dataTransformer.transformToAccessibleFormat(relevantData);```
  Parsujemy to do jakiejśc obiektowej postaci  - {Wojewódzwto, Liczba imprez, Uczestnicy}
 4. ```List<AccessibleDataFormat> filteredData = dataSelector.filter(accessibleData);```
-  Filtrujemy tylko przypadki gdzie było więcej niż 5 tysięcy imprez i odrzucamy POLSKA (to nie wojewódzwo!). 
+  Filtrujemy tylko przypadki gdzie było więcej niż 5 tysięcy imprez i odrzucamy POLSKA (to nie wojewódzwo!).
+   Dodatkowo tylko GMINY WIEJSKIE.
 5. ```List<GeneratedResult> generatedData = resultGenerator.generate(filteredData);```
 Z pozostałych zbieramy średnią.
 6. ```return Optional.of(outputFormatter.formatOutput(generatedData));```
-I pięknie formatujemy wynik i wpychamy go w  Optionala. 
-Mamy zatem srędnią liczbę uczstników imprez w domach kultury, w województwach gdzie było
-więcej niż 5tys imprez na Rok 2015. Aż się nie mogę doczekać ile to wyjdzie!
+I pięknie formatujemy wynik (na Stringa) i wpychamy go w  Optionala. 
+
+
+Mamy zatem średnią liczbę uczestników imprez w domach kultury, w województwach gdzie było
+więcej niż 5tys imprez na Rok 2015. *Aż się nie mogę doczekać ile to wyjdzie*!
+
+## No i do dzieła
+Uzupełniamy wszystkie klasy i typy tak, żeby się zgadzały. 
+Dla pogłebenia chaosu wszystkie typy danych wrzucamy do pakiet *data*, 
+a te dziwne zależności do *processors*.   
+Trzeba było jeden własny wyjątek stworzyć, wrzucamy go do pakietu *hell*, niech gnije w piekle. 
+
+## gradle cTJ
+I kurde kompiluje się. Czyli pewnie działa..... Wszystkie testy przechodzą!
+Ale, że testów jest zero, a kod słaby to niestety nie wiadomo.
+Trzeba będzie sprawdzić w nastepnym odcinku.
+Ale piersze issue zrobione.! 
+
+
+# W poprzednich odcinkach
 
 # Początek
 
