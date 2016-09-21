@@ -53,7 +53,7 @@ I pięknie formatujemy wynik (na Stringa) i wpychamy go w  Optionala.
 
 
 Mamy zatem średnią liczbę uczestników imprez w domach kultury, w województwach gdzie było
-więcej niż 5tys imprez na Rok 2015. *Aż się nie mogę doczekać ile to wyjdzie*!
+więcej niż 5tys imprez na Rok 2015, ale tylko  gminy wiejskie! *Aż się nie mogę doczekać ile to wyjdzie*!
 
 ## No i do dzieła
 Uzupełniamy wszystkie klasy i typy tak, żeby się zgadzały. 
