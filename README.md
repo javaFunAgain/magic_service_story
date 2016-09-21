@@ -65,7 +65,7 @@ Trzeba było jeden własny wyjątek stworzyć, wrzucamy go do pakietu *hell*, ni
 I kurde kompiluje się. Czyli pewnie działa..... Wszystkie testy przechodzą!
 Ale, że testów jest zero, a kod słaby to niestety nie wiadomo.
 Trzeba będzie sprawdzić w nastepnym odcinku.
-Ale piersze issue zrobione.! 
+Ale piersze issue zrobione! 
 
 
 # W poprzednich odcinkach
