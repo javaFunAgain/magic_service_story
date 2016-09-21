@@ -1,5 +1,62 @@
 # Historia Magicznego Serwisu
 
+# Niech to się chociaż skompiluje
+ 
+ ## Zależności
+ Zacznijmy od popisania tych wszystkich brakujących klas typu *DataCollector* czy *Extractor*.
+ Ponieważ autor nie podał co jakie wyjątki rzuca więc sobie to sami wymyślimy (a co!).
+ 
+ I tu zonk - bo widać, że trzeba by wymyśleć co ten kod robi.
+## Co ten kod robi do cholery?
+Łatwo widać (po nazwach), że autor miał na myśli ~~tesknąte za ojczyzną i ogólnie taki jakiś martkotny był~~,
+ * pobieranie danych z jekiegos czegoś (pliku),
+ * wstępną selekcję ,
+ * transormowanie (czyli pewnie parsowanie),
+ * śjakieś filtrowanie, 
+ * śjakieś obliczenia (kij wie),
+ * i na koniec transoromowanie do outputu
+  
+Dużo,  jak na jedną metodę.... Ale trzeba to ukonkretyzować.
+
+## Bierzemy dane
+Dane w 2016 łatwo zdobyć. Idziemy więc na stronę [Banku Danych Lokalnych](https://bdl.stat.gov.pl/BDL/start)
+ i zaznaczmy (po kolei):
+ * Dane, 
+ * Kultura i sztuka
+ * DZIAŁALNOŚĆ CENTRÓW, DOMÓW, OŚRODKÓW KULTURY, KLUBÓW I ŚWIETLIC
+ * Domy i ośrodki kultury, kluby i świetlice    
+ * Dalej
+ * Wybieramy *Rok 2015* oraz obydwa *imprezy* i *uczestnicy imprez*
+ * Dalej
+ * Agregaty
+ * Wybieramy wszytkie rodzaje gmin (WIEJSKIE też)
+ * Export  CSV Tablica wielowymiarowa -  i już jestesmy królem rocznika statystycznego
+  
+  ALE CZAD!
+  
+  ## Teraz troche łatwiej to opisać
+  
+  
+  1. ```RawData rawData = dataCollector.collectData(input);```
+  Bierzemy dane z pliku i wrzucamy do Listy Stringów (jest RAW).
+  2. ```List<RelevantData> relevantData = dataExtractor.extractRelevant(rawData);```
+  Wstępnie selekcjonujemy tylko gminy wiejskie.
+  
+  3.  ```List<AccessibleDataFormat> accessibleData = dataTransformer.transformToAccessibleFormat(relevantData);```
+ Parsujemy to do jakiejśc obiektowej postaci  - {Wojewódzwto, Liczba imprez, Uczestnicy}
+ 
+  4. ```List<AccessibleDataFormat> filteredData = dataSelector.filter(accessibleData);```
+  Filtrujemy tylko przypadki gdzie było więcej niż 5 tysięcy imprez i odrzucamy POLSKA (to nie wojewódzwo!). 
+              
+5. ```List<GeneratedResult> generatedData = resultGenerator.generate(filteredData);```
+Z pozostałych zbieramy średnią.
+              return Optional.of(outputFormatter.formatOutput(generatedData));
+              
+6. ```return Optional.of(outputFormatter.formatOutput(generatedData));```
+I pięknie formatujemy wynik i wpychamy go w  Optionala. 
+Mamy zatem srędnią liczbę uczstników imprez w domach kultury, w województwach gdzie było
+więcej niż 5tys imprez na Rok 2015. Aż się nie mogę doczekać ile to wyjdzie!
+
 # Początek
 
 Zaczęło się od tego, że kolega *S* rozpoczął flame na forum [4programmers.net](http://forum.4programmers.net/Inzynieria_oprogramowania/276798-wstrzykiwanie_zaleznosci_a_testy_jednostkowe_-_zloty_srodek)
