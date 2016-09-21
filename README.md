@@ -2,7 +2,7 @@
 
 # Niech to się chociaż skompiluje
  
- ## Zależności
+## Zależności
  Zacznijmy od popisania tych wszystkich brakujących klas typu *DataCollector* czy *Extractor*.
  Ponieważ autor nie podał co jakie wyjątki rzuca więc sobie to sami wymyślimy (a co!).
  
