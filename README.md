@@ -108,13 +108,13 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
  ```
  Jak widać jest to metoda śmietnik, ale na razie działa, oznaczmy wiele rzeczy do poprawy (TODOsy).
  
- ## Testy przechodzą
+## Testy przechodzą
  
  Całe dwa!
  
  Czas więc pójść o krok dalej i zabrać się za **DataExtractor**.
  
- ## Średnia historia **DataExtractor** 
+## Średnia historia **DataExtractor** 
  
  Zgodnie z opisem, z jednego z poprzednich odcinków, **DataExtractor** ma za zadanie
  wstępnie przeparsować **RawData** (mówmy String)  i zrobić listę czegoś co się nazywa:
@@ -136,7 +136,7 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
   1. enterami - oddzielamy wiersze
   2. średnikami - oddzielamy kolumny
   
- ### Od razu toczymy boj z klasą **RelevantData** o equals!
+### Od razu toczymy boj z klasą **RelevantData** o equals!
  I podobnie jak poprzednio kończymy z czymś takim:
  ```
 @Override
@@ -146,7 +146,7 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
     }
 ```
  
- ### Testy są w sumie łatwe
+### Testy są w sumie łatwe
  
  
  Testy zróbmy takie jak poniżej:
@@ -172,7 +172,7 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
  ```
  Widać problem z enkapsulacją - z dużo wyłazi nam z klasy RelevantData...
  
- ### A **DataExtractor** jest prosty
+### A **DataExtractor** jest prosty
  ```
  public List<RelevantData> extractRelevant(RawData rawData) {
          final String[] rows = rawData.fileContent.split("\n");
@@ -184,9 +184,9 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
      }
  ```
  
- Done!
+Done!
  
- ### To teraz **DataTransformer**
+### To teraz **DataTransformer**
   
 Ta klasa będzie brała **RelevantData** (czyli nie oszukujmy się, po prostu tablicę stringów) i przewalała na postać obiektową  
 **AccessibleDataFormat**. Najgorsze, że robi to na liście! Czyli nieładnie się bawimy functorem (potem się to naprawi). 
