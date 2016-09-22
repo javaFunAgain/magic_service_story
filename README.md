@@ -136,14 +136,6 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
   1. enterami - oddzielamy wiersze
   2. średnikami - oddzielamy kolumny
   
- 
- Testy zróbmy takie:
- 1. Dla pliku jak wyżej: w wyniku powinna powstać lista 6 elementowa
- 2. Dla pliku jak wyżej: pierwszy element listy wynikowej ma mieć  w elemencie 2  - 7237 
- 3. Dla pliku jak wyżej: ostatni element listy wynikowej ma mieć w elemencie 3  - 406778
- 4. Dla pliku jak wyżej: pierwszy element z listy ma miec w elemencie 1 "PRABUTY POL"
- 5. Dla pliku jak wyżej: dugi element z listy ma miec  w elemencie 1 "PRABUTY POL - GMINY MIEJSKIE"
- 
  ### Od razu toczymy boj z klasą **RelevantData** o equals!
  I podobnie jak poprzednio kończymy z czymś takim:
  ```
@@ -154,6 +146,62 @@ Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (m
     }
 ```
  
+ ### Testy są w sumie łatwe
+ 
+ 
+ Testy zróbmy takie jak poniżej:
+ ```
+  @TestFactory
+     Iterable<DynamicTest> dataExtractorTests() throws IOException {
+         final DataExtractor theExtractor = new DataExtractor();
+         final RawData inputData = new DataCollector().collectData(new Input("prabuty_poludniowe.csv"));
+ 
+         return Arrays.asList(
+                 dynamicTest("result should have 6 rows",
+                         () -> {
+                             assertEquals(6, theExtractor.extractRelevant(inputData).size());
+                         }),
+                 dynamicTest("result should have 6 rows",
+                         () -> {
+                             assertEquals("7237", theExtractor.extractRelevant(inputData).get(0).dataColumns.get(2));//TODO: we know too much about RelevantData
+                         }),
+                 dynamicTest("result should have 6 rows",
+                         () -> {
+                             assertEquals("406778", theExtractor.extractRelevant(inputData).get(5).dataColumns.get(3));
+                         }),
+ ```
+ Widać problem z enkapsulacją - z dużo wyłazi nam z klasy RelevantData...
+ 
+ ### A **DataExtractor** jest prosty
+ ```
+ public List<RelevantData> extractRelevant(RawData rawData) {
+         final String[] rows = rawData.fileContent.split("\n");
+         return List.of(rows).drop(1).map( this::splitRow);
+     }
+ 
+     private  RelevantData splitRow(final String row) {
+         return new RelevantData(Array.of (row.split(";")).map(s->s.replaceAll("\"(.*)\"","$1")) );
+     }
+ ```
+ 
+ Done!
+ 
+ ### To teraz **DataTransformer**
+  
+Ta klasa będzie brała **RelevantData** (czyli nie oszukujmy się, po prostu tablicę stringów) i przewalała na postać obiektową  
+**AccessibleDataFormat**. Najgorsze, że robi to na liście! Czyli nieładnie się bawimy functorem (potem się to naprawi). 
+Ale jak to jakoś przeżujemy  - to kod jest prosty (prawie):
+
+```
+private AccessibleDataFormat parse(RelevantData dt) {
+        final String[] regions = dt.dataColumns.get(1).split("-");
+        return new AccessibleDataFormat(
+                regions[0].trim(),
+                regions.length == 2 ? Option.some(regions[1].trim()) : Option.none(),
+                Integer.parseInt(dt.dataColumns.get(2)),
+                Integer.parseInt(dt.dataColumns.get(3)));
+    }
+```
 
 # W poprzednim odcinku 
 
