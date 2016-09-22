@@ -13,7 +13,95 @@
    Więc wybrane - idziemy dookoła.
    
    ## Czyli najpierw dociągniemy do końca funkcjonalność
+   
+ ### Zaczniemy od obrobienia **DataCollector**
+  Więc test:
+```
+@TestFactory
+    Iterable<DynamicTest> dataCollectorTests() {
+        final DataCollector theCollector = new DataCollector();
+        return Arrays.asList(
+                dynamicTest("should return string for simple file",
+                        () -> {
+                            assertEquals(new RawData("nothing special"),
+                                    theCollector.collectData(new Input("raw_file.csv")));
+                        })
+                //We do not test Exception - because we do not want it at first place!
+        );
+    }  
+```
+    
+ assertEquals jednakowoż zadziała tylko jak RawData będzie miało equals.   
+ Więc go generujemy (ale skucha - Java niestety):
+ ```
+ @Override
+     public boolean equals(Object o) {
+         if (this == o) return true;
+         if (o == null || getClass() != o.getClass()) return false;
+         RawData rawData = (RawData) o;
+         return fileContent.equals(rawData.fileContent);
+     }
+ ```
+ Uczciwie powiedzmy  - to jest koszmar, nie możemy tego tak zostawić.
+ Więc primo: 
+ ``` if (this == o) return true;``` -  a co mnie to obchodzi  - przecież jeśli 
+ porównujemy obiekt sam z sobą to na pewno equals na stringach z ostatniej
+ lini zadziała (```fileContent.equals(rawData.fileContent);```). Wywalamy!
+ Nie ma tej lini.
+ ```  if (o == null || getClass() != o.getClass()) return false;``` - też pięknie,
+ a niby skąd się ten null miałby wziąć? Wywalamy! (Jak ktoś używa nulla to powinien dostać 
+ NullPointerException i my mu go chętnie podamy).
+  Zostajemy z:
+  ```if (getClass() != o.getClass()) return false;``` - w zasadzie mogłoby zostać, 
+  ale  nie rozumiem na kiego grzyba ktoś miałby nasze RawData z czymś innym porównywać.
+  Niech mu to się lepiej wywali! Wywalamy!
+  
+ I mamy:
+ ```
+     @Override
+     public boolean equals(Object o) {
+         return fileContent.equals(((RawData)o).fileContent);
+     }
+```
+Kod jest już ładny - ale niestety narusza kontrakt equals (z klasy Object):
+>  For any non-null reference value x, x.equals(null) should return false.
+
+Co za banda głupków taki kontrakt obmyślRaa. Ale zrobimy coś z tym potem (markujemy sobie TODO). 
+
+ Z hashCode za to jakoś nie ma problemu! Kod jest ładny.
  
+ Jak już mamy **RawData** to implementacja **DataCollector**
+ ```
+ public final class DataCollector {
+     public RawData collectData(final Input input) throws IOException{
+         return new RawData(new String(Files.readAllBytes(Paths.get(input.getURI()))));
+     }
+ }
+ ```
+ jest jak widać prosta.
+ Tylko trzeba było **Input** podrasować - dorzucając mu metodę:
+ ```
+     public URI getURI() throws IOException {//TODO: oh no, no checked exceptions anymore
+         try {
+             final URL resource = getClass().getResource("/" + this.resourceName);
+             if (resource != null) { //TODO: remove this if
+                 return resource.toURI();
+             } else {
+                 throw new IOException("there is no " + this.resourceName); //TODO: do not throw
+             }
+         } catch (URISyntaxException e) {
+             throw new IOException(e); //TODO: do not throw, please
+         }
+     }
+ ```
+ Jak widać jest to metoda śmietnik - na razie działa - ale oznaczmy wiele rzeczy do poprawy.
+ 
+ 
+    
+  
+  
+  
+  
  1. Najpierw przygotujmy jakies proste dane testowe:
  
  

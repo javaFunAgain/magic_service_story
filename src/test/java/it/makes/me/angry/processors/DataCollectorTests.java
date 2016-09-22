@@ -22,8 +22,7 @@ public class DataCollectorTests {
                             assertEquals(new RawData("nothing special"),
                                     theCollector.collectData(new Input("raw_file.csv")));
                         })
-                //We do not test Exception - because we do not want it at first place!
-
+                //TODO: We do not test Exception - because we do not want it at first place!
         );
     }
 }

@@ -11,13 +11,7 @@ public class RawData {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RawData rawData = (RawData) o;
-
-        return fileContent.equals(rawData.fileContent);
-
+        return fileContent.equals(((RawData)o).fileContent);//TODO - does not conform to Object.equals  - null problem
     }
 
     @Override
