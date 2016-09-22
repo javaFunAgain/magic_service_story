@@ -7,7 +7,7 @@ pliku i sprawdzeniu czy dostaniemy ```empty```.
 
 ## Do it
 Dla ułatwienia skonfigurujemy sobie [Junit5](http://junit.org/junit5/docs/current/user-guide/#writing-tests-dynamic-tests).
-I to jeszcze na dynamit testach (cokolwiek by to nie było). Na pewno będzie zabawnie.
+I to jeszcze na dynamic testach (cokolwiek by to nie było). Na pewno będzie zabawnie.
 
 Po chwili zabawy z konfiguracją **gradle** mam takiego potworka:
 ```@TestFactory
@@ -38,6 +38,7 @@ Ale dopisuje nowy (trzeba to porządnie potestować).
 Nieważne co by nam tu kłamał autor oryginalnego postu - my wiemy, że ma po jednej implementacji
 dla kazdej zależności. Gdyby miał więcej to by od razu napisał ( a nie coś tam kręcił w komentarzu).
 Poza tym wszysscy mają po jednej - bo kto ma czas takie dataCollectory pisać rożne  jak jeden dobry starczy.
+Pozostałe zależności zresztą tak samo!
 
 Dlatego zasadniczy problem autora rozwiążemy ultra prosto.
 ```
@@ -57,12 +58,19 @@ Super słówko kluczowe *new*  - (warto zapamiętać).
 
 Jest oczywiście jeden zonk. Gdyby te moduły, klasy nie były klasami javy - tylko dziwactwami 
 CDI/Springa. Wtedy **new** nie pomoże, i trzeba by najpierw je uratować i przemienić w zwykłą Javę. Ale tu na szczęście
-tak źle nie ma więc jedziemy.
+tak źle nie ma (autor nic nie pisał) więc jedziemy.
 
 ## Jeszcze jedno odpalenie Testu `gradle clean test` 
-I mamy UnsupportedOperationException. Pewien postęp - sam go napisałem.
-No to pierwsza poprawka. Zmieniamy Unsupported w  DataCollector na IOException.
-I kolejny poważny sukces.
+I mamy UnsupportedOperationException. Pewien postęp - sam tego *Unsuppor Teda* napisałem.
+No to - pierwsza poprawka. Zmieniamy Unsupported w  DataCollector na IOException.
+```
+public class DataCollector {
+    public RawData collectData(Input input) throws IOException{
+        throw new IOException();
+    }
+}
+```
+I notujemy kolejny poważny sukces.
 ```
 [         1 tests found      ]
 [         0 tests skipped    ]
@@ -79,7 +87,6 @@ Niby sukces ale zadowolenia nie  ma. bo:
 więcej niż 5tys imprez na Rok 2015, w  gminach wiejskich! (daje issue)
 2. Te 6 zależności w klasie MagicService bije po oczach (dodaje issue)
 3. No i nadal mamy Exceptiony (jak było)
-
 
 
 
