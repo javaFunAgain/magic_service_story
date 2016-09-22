@@ -20,7 +20,7 @@ public class MagicServiceTests {
     Iterable<DynamicTest> magicServiceBasics() {
         final MagicService theTestedService = new MagicService();
         return Arrays.asList(
-                dynamicTest("should return empty it file does not exist",
+                dynamicTest("should return empty if file does not exist",
                         () -> {
                              assertFalse(
                                      theTestedService.performComplexCalculations(

@@ -1,5 +1,28 @@
 # Historia Magicznego Serwisu
 
+# Niech to wszystko  - jakoś zadziała - potem naprawimy kod
+ 
+ W poprzednich odcinkach udało się doprowadzić do kompilowania kodu, 
+ ba! poznalismy co kod w ogóle miał robić, no i nawet jest test (czyli jestesmy full profesjonal).
+ 
+ Nadal niestety kod jest troszkę nie w pytkę, no i nie robi tego co miał.
+  Powstał dylemat  - czy najpierw naprawiamy strukturę,  a potem funkcjonalność ( z pewnością krótsza droga),
+  czy też idziemy na około z tym badziemnym designem do końca - a potem to będziemy naprawiać.
+  
+  Droga druga jest z pewnością bardziej męcząca, ale ma taką zaletę, że będzie więcej widać i można będzie porównać rozwiązania.
+   Więc wybrane - idziemy dookoła.
+   
+   ## Czyli najpierw dociągniemy do końca funkcjonalność
+ 
+ 1. Najpierw przygotujmy jakies proste dane testowe:
+ 
+ 
+ 
+ 
+ 
+
+# W poprzednim odcinku 
+
 # Robimy pierwszy test
 
 No więc łatwo widać, że pierwszy trywialny test mógłby polegać na podaniu jakiegoś bezsensownego
