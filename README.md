@@ -54,11 +54,15 @@ Autor pisał co prawda:
 > Na potrzeby dyskusji załóżmy że wszystkie te klasy będące zależnościami są mocno skomplikowane - możliwe że to są entry pointy do całych modułów z kupą kodu.
 
 No, ale nieważne jak skomplikowane są te moduły, jak są to klasy Javy, to się przez **new** da podnieść!
-Super słówko kluczowe *new*  - (warto zapamiętać).
+Super słówko kluczowe *new*  - (warto zapamiętać). (Pomijamy sytuację, kiedy klasy te mają np. prywatny konstruktor, 
+nie było nic takiego  w założeniach, a poza tym by nas nie powstrzymało...).
 
 Jest oczywiście jeden zonk. Gdyby te moduły, klasy nie były klasami javy - tylko dziwactwami 
 CDI/Springa. Wtedy **new** nie pomoże, i trzeba by najpierw je uratować i przemienić w zwykłą Javę. Ale tu na szczęście
 tak źle nie ma (autor nic nie pisał) więc jedziemy.
+
+Przy okazji, nieważne ile godzin trwa podnoszenie tych klas - nie musimy tego robić więcej niż raz bo
+MagicService jak na razie jest całkiem bezstanowy! (I całkiem bez sensu, ale to się da naprawić).
 
 ## Jeszcze jedno odpalenie Testu `gradle clean test` 
 I mamy UnsupportedOperationException. Pewien postęp - sam tego *Unsuppor Teda* napisałem.
