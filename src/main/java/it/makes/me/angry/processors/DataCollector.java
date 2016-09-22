@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public class DataCollector {
     public RawData collectData(Input input) throws IOException{
-        throw new UnsupportedOperationException();
+        throw new IOException();
     }
 }

@@ -11,12 +11,12 @@ import java.util.Optional;
 import java.util.zip.DataFormatException;
 
 public class MagicService {
-    private DataCollector dataCollector;
-    private DataExtractor dataExtractor;
-    private DataTransformer dataTransformer;
-    private DataSelector dataSelector;
-    private ResultGenerator resultGenerator;
-    private OutputFormatter outputFormatter;
+    private final DataCollector dataCollector  = new DataCollector();
+    private final DataExtractor dataExtractor  =  new DataExtractor();
+    private final DataTransformer dataTransformer = new DataTransformer();
+    private final DataSelector dataSelector = new DataSelector();
+    private final ResultGenerator resultGenerator  = new ResultGenerator();
+    private final OutputFormatter outputFormatter = new OutputFormatter();
 
     public Optional<Output> performComplexCalculations(Input input){
         try {
