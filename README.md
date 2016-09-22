@@ -9,8 +9,9 @@ pliku i sprawdzeniu czy dostaniemy ```empty```.
 Dla ułatwienia skonfigurujemy sobie [Junit5](http://junit.org/junit5/docs/current/user-guide/#writing-tests-dynamic-tests).
 I to jeszcze na dynamic testach (cokolwiek by to nie było). Na pewno będzie zabawnie.
 
-Po chwili zabawy z konfiguracją **gradle** mam takiego potworka:
-```@TestFactory
+Po chwili zabawy z konfiguracją **gradle** mamy takiego potworka:
+```
+    @TestFactory
     Iterable<DynamicTest> magicServiceBasics() {
         final MagicService theTestedService = new MagicService();
         return Arrays.asList(
@@ -30,9 +31,9 @@ Po odpaleniu testu mamy:
         JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
         => java.lang.NullPointerException
 ```
-Dokładnie tak jak to było przewidziane. Albowiem nikt nie ustawił  zależności (jeszcze).
+Ha! Dokładnie tak, jak to było przewidziane. Albowiem, nikt nie ustawił  zależności (jeszcze).
 Na razie odchaczam sobie kolejny issue (Test już jakiś jest).
-Ale dopisuje nowy (trzeba to porządnie potestować).
+Ale dopisuje nowy (trzeba to porządniej potestować).
 
 ## No to weźmy się za zależności
 Nieważne co by nam tu kłamał autor oryginalnego postu - my wiemy, że ma po jednej implementacji
