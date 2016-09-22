@@ -202,6 +202,15 @@ private AccessibleDataFormat parse(RelevantData dt) {
                 Integer.parseInt(dt.dataColumns.get(3)));
     }
 ```
+### Dochodzimy do DataSelectora
+Który załatwiamy prostacko:
+```
+public class DataSelector {
+    public List<AccessibleDataFormat> filter(List<AccessibleDataFormat> accessibleData) {
+        return accessibleData.filter(data -> data.type.eq(Option.some("GMINA WIEJSKA")));
+    }
+}
+```
 
 # W poprzednim odcinku 
 
