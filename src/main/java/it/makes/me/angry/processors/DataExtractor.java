@@ -2,10 +2,16 @@ package it.makes.me.angry.processors;
 
 import it.makes.me.angry.data.RawData;
 import it.makes.me.angry.data.RelevantData;
+import javaslang.collection.Array;
 import javaslang.collection.List;
 
 public class DataExtractor {
     public List<RelevantData> extractRelevant(RawData rawData) {
-        throw new UnsupportedOperationException();
+        final String[] rows = rawData.fileContent.split("\n");
+        return List.of(rows).drop(1).map( this::splitRow);
+    }
+
+    private  RelevantData splitRow(final String row) {
+        return new RelevantData(Array.of (row.split(";")).map(s->s.replaceAll("\"(.*)\"","$1")) );
     }
 }

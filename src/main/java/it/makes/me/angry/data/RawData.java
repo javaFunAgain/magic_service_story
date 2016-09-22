@@ -1,6 +1,7 @@
 package it.makes.me.angry.data;
 
 
+import javaslang.collection.List;
 
 public class RawData {
     public final String fileContent;
@@ -18,4 +19,7 @@ public class RawData {
     public int hashCode() {
         return fileContent.hashCode();
     }
+
+
+
 }

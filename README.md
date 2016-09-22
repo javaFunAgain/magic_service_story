@@ -3,18 +3,19 @@
 # Niech to wszystko  - jakoś zadziała - potem naprawimy kod
  
  W poprzednich odcinkach udało się doprowadzić do kompilowania kodu, 
- ba! poznalismy co kod w ogóle miał robić, no i nawet jest test (czyli jestesmy full profesjonal).
+ ba! poznalismy co kod w ogóle miał robić, no i nawet jest test 
+ (czyli jesteśmy już full profesjonal). 
  
  Nadal niestety kod jest troszkę nie w pytkę, no i nie robi tego co miał.
   Powstał dylemat  - czy najpierw naprawiamy strukturę,  a potem funkcjonalność ( z pewnością krótsza droga),
-  czy też idziemy na około z tym badziemnym designem do końca - a potem to będziemy naprawiać.
+  czy też idziemy na około z tym badziewnym designem do końca, a potem to będziemy naprawiać.
   
   Droga druga jest z pewnością bardziej męcząca, ale ma taką zaletę, że będzie więcej widać i można będzie porównać rozwiązania.
-   Więc wybrane - idziemy dookoła.
+   Więc wybrane ! Idziemy dookoła.
    
-   ## Czyli najpierw dociągniemy do końca funkcjonalność
+## Czyli najpierw dociągniemy do końca funkcjonalność
    
- ### Zaczniemy od obrobienia **DataCollector**
+### Zaczniemy od obrobienia **DataCollector**
   Więc test:
 ```
 @TestFactory
@@ -31,7 +32,8 @@
     }  
 ```
     
- assertEquals jednakowoż zadziała tylko jak RawData będzie miało equals.   
+ assertEquals jednakowoż zadziała tylko jak ***RawData*** będzie miało **equals**.
+### Miejsce: **RawData** Misja: wprowadzić  ~~komunizm,~~ ~~równość,~~ equals   
  Więc go generujemy (ale skucha - Java niestety):
  ```
  @Override
@@ -43,18 +45,21 @@
      }
  ```
  Uczciwie powiedzmy  - to jest koszmar, nie możemy tego tak zostawić.
+ 
  Więc primo: 
- ``` if (this == o) return true;``` -  a co mnie to obchodzi  - przecież jeśli 
+ ``` if (this == o) return true;```, a co mnie to obchodzi  - przecież jeśli 
  porównujemy obiekt sam z sobą to na pewno equals na stringach z ostatniej
  lini zadziała (```fileContent.equals(rawData.fileContent);```). Wywalamy!
- Nie ma tej lini.
+ Nie ma tej linjki.
+ 
  ```  if (o == null || getClass() != o.getClass()) return false;``` - też pięknie,
- a niby skąd się ten null miałby wziąć? Wywalamy! (Jak ktoś używa nulla to powinien dostać 
- NullPointerException i my mu go chętnie podamy).
+ a niby skąd się ten null miałby wziąć? Wywalamy! (Jak ktoś używa **nulla** to powinien dostać 
+ **NullPointerException** i my mu go chętnie podamy).
+ 
   Zostajemy z:
   ```if (getClass() != o.getClass()) return false;``` - w zasadzie mogłoby zostać, 
-  ale  nie rozumiem na kiego grzyba ktoś miałby nasze RawData z czymś innym porównywać.
-  Niech mu to się lepiej wywali! Wywalamy!
+  ale  nie rozumiem na kiego grzyba ktoś miałby nasze RawData z czymś innym porównywać!
+  Niech mu to się lepiej wywali **classcastem** prosto w twarz! Wywalamy!
   
  I mamy:
  ```
@@ -63,14 +68,20 @@
          return fileContent.equals(((RawData)o).fileContent);
      }
 ```
-Kod jest już ładny - ale niestety narusza kontrakt equals (z klasy Object):
+Kod jest już ładny - ale niestety narusza kontrakt equals (z klasy Object): 
 >  For any non-null reference value x, x.equals(null) should return false.
 
-Co za banda głupków taki kontrakt obmyślRaa. Ale zrobimy coś z tym potem (markujemy sobie TODO). 
+Co za banda głupków taki kontrakt obmyśliła. Ale zrobimy coś z tym potem (markujemy sobie TODO). 
 
- Z hashCode za to jakoś nie ma problemu! Kod jest ładny.
- 
- Jak już mamy **RawData** to implementacja **DataCollector**
+ Z hashCode, za to, jakoś nie ma problemu! Kod jest ładny.
+ ```
+ @Override
+     public int hashCode() {
+         return fileContent.hashCode();
+     }
+```
+     
+ Jak już mamy **RawData** i Testy  to implementacja **DataCollector** jest prosta:
  ```
  public final class DataCollector {
      public RawData collectData(final Input input) throws IOException{
@@ -78,7 +89,8 @@ Co za banda głupków taki kontrakt obmyślRaa. Ale zrobimy coś z tym potem (ma
      }
  }
  ```
- jest jak widać prosta.
+ 
+ 
  Tylko trzeba było **Input** podrasować - dorzucając mu metodę:
  ```
      public URI getURI() throws IOException {//TODO: oh no, no checked exceptions anymore
@@ -94,19 +106,53 @@ Co za banda głupków taki kontrakt obmyślRaa. Ale zrobimy coś z tym potem (ma
          }
      }
  ```
- Jak widać jest to metoda śmietnik - na razie działa - ale oznaczmy wiele rzeczy do poprawy.
+ Jak widać jest to metoda śmietnik, ale na razie działa, oznaczmy wiele rzeczy do poprawy (TODOsy).
  
+ ## Testy przechodzą
  
-    
+ Całe dwa!
+ 
+ Czas więc pójść o krok dalej i zabrać się za **DataExtractor**.
+ 
+ ## Średnia historia **DataExtractor** 
+ 
+ Zgodnie z opisem, z jednego z poprzednich odcinków, **DataExtractor** ma za zadanie
+ wstępnie przeparsować **RawData** (mówmy String)  i zrobić listę czegoś co się nazywa:
+ **AccessibleDataFormat**.
+ 
+ ### Najpierw przygotujmy jakies proste dane testowe
+ Te np. dotyczące przyszłego województwa *Prabuty południowe*
+ ```
+ "Kod";"Nazwa";"imprezy;2015;[szt.]";"uczestnicy imprez;2015;[osoba]";
+ 3210000000;"PRABUTY POL";7237;1094693;
+ 3210000000;"PRABUTY POL - GMINY MIEJSKIE";1872;284292;
+ 3210000000;"PRABUTY POL - GMINY MIEJSKO-WIEJSKIE";3623;436798;
+ 3210000000;"PRABUTY POL - GMINY WIEJSKIE";1742;373603;
+ 3210000000;"PRABUTY POL - MIASTO";3783;687915;
+ 3210000000;"PRABUTY POL - WIEŚ";3454;406778;
+ ```
+ 
+ Jak to ugryźć? Widać miejsce na 2 String splity:
+  1. enterami - oddzielamy wiersze
+  2. średnikami - oddzielamy kolumny
   
-  
-  
-  
- 1. Najpierw przygotujmy jakies proste dane testowe:
  
+ Testy zróbmy takie:
+ 1. Dla pliku jak wyżej: w wyniku powinna powstać lista 6 elementowa
+ 2. Dla pliku jak wyżej: pierwszy element listy wynikowej ma mieć  w elemencie 2  - 7237 
+ 3. Dla pliku jak wyżej: ostatni element listy wynikowej ma mieć w elemencie 3  - 406778
+ 4. Dla pliku jak wyżej: pierwszy element z listy ma miec w elemencie 1 "PRABUTY POL"
+ 5. Dla pliku jak wyżej: dugi element z listy ma miec  w elemencie 1 "PRABUTY POL - GMINY MIEJSKIE"
  
- 
- 
+ ### Od razu toczymy boj z klasą **RelevantData** o equals!
+ I podobnie jak poprzednio kończymy z czymś takim:
+ ```
+@Override
+    public boolean equals(Object o) {
+        RelevantData that = (RelevantData) o;
+        return dataColumns.equals(that.dataColumns); //TODO: does not fulfil contract of Object.equals
+    }
+```
  
 
 # W poprzednim odcinku 
