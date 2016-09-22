@@ -61,8 +61,8 @@ Jest oczywiście jeden zonk. Gdyby te moduły, klasy nie były klasami javy - ty
 CDI/Springa. Wtedy **new** nie pomoże, i trzeba by najpierw je uratować i przemienić w zwykłą Javę. Ale tu na szczęście
 tak źle nie ma (autor nic nie pisał) więc jedziemy.
 
-Przy okazji, nieważne ile godzin trwa podnoszenie tych klas - nie musimy tego robić więcej niż raz bo
-MagicService jak na razie jest całkiem bezstanowy! (I całkiem bez sensu, ale to się da naprawić).
+Przy okazji, nieważne ile godzin trwa podnoszenie tych klas - nie musimy tego robić więcej niż raz, bo
+**MagicService**, jak na razie, jest całkiem bezstanowy! (I całkiem bez sensu, ale to się da naprawić).
 
 ## Jeszcze jedno odpalenie Testu `gradle clean test` 
 I mamy UnsupportedOperationException. Pewien postęp - sam tego *Unsuppor Teda* napisałem.
