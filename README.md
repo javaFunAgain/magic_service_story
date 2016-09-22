@@ -82,7 +82,7 @@ I notujemy kolejny poważny sukces.
 ```
 
 ## Co dalej
-Niby sukces ale zadowolenia nie  ma. bo:
+Niby sukces, ale zadowolenia nie  ma. Bo:
 
 1. Nadal nie wiem jaka jest średnia liczbę uczestników imprez w domach kultury, w województwach gdzie było
 więcej niż 5tys imprez na Rok 2015, w  gminach wiejskich! (daje issue)
