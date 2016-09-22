@@ -53,7 +53,7 @@ O matko! Jak prosto...
 Autor pisał co prawda:
 > Na potrzeby dyskusji załóżmy że wszystkie te klasy będące zależnościami są mocno skomplikowane - możliwe że to są entry pointy do całych modułów z kupą kodu.
 
-No ale nieważne jak skomplikowane są te moduły - jak są to klasy Javy to się przez **new** da podnieść!
+No, ale nieważne jak skomplikowane są te moduły, jak są to klasy Javy, to się przez **new** da podnieść!
 Super słówko kluczowe *new*  - (warto zapamiętać).
 
 Jest oczywiście jeden zonk. Gdyby te moduły, klasy nie były klasami javy - tylko dziwactwami 
