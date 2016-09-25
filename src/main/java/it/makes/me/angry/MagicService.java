@@ -5,6 +5,7 @@ import it.makes.me.angry.data.*;
 import it.makes.me.angry.hell.GenerationException;
 import it.makes.me.angry.processors.*;
 import javaslang.collection.List;
+import javaslang.control.Either;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,21 +19,16 @@ public class MagicService {
     private final ResultGenerator resultGenerator  = new ResultGenerator();
     private final OutputFormatter outputFormatter = new OutputFormatter();
 
-    public Optional<Output> performComplexCalculations(Input input){
-        try {
-            RawData rawData = dataCollector.collectData(input);
-            List<RelevantData> relevantData = dataExtractor.extractRelevant(rawData);
-            List<AccessibleDataFormat> accessibleData = dataTransformer.transformToAccessibleFormat(relevantData);
-            List<AccessibleDataFormat> filteredData = dataSelector.filter(accessibleData);
-            List<GeneratedResult> generatedData = resultGenerator.generate(filteredData);
-            return Optional.of(outputFormatter.formatOutput(generatedData));
-        }catch(IOException ex){
-            //handling1
-        }catch(DataFormatException ex){
-            //handling2
-        }catch(GenerationException ex){
-            //handling3
-        }
-        return Optional.empty();
+    public Either<CalculationProblem, Output> performComplexCalculations(Input input){
+            final Either<CalculationProblem, RawData> rawData = dataCollector.collectData(input);
+            final Either<CalculationProblem, List<RelevantData>> relevantData =
+                    rawData.map( raw->dataExtractor.extractRelevant(raw));
+            Either<CalculationProblem,List<AccessibleDataFormat>> accessibleData =
+                     relevantData.flatMap( dataTransformer::transformToAccessibleFormat);
+            Either<CalculationProblem,List<AccessibleDataFormat>> filteredData =
+                    accessibleData.map( dataSelector::filter);
+            Either<CalculationProblem, List<GeneratedResult>> generatedData =
+                    filteredData.flatMap( data  -> resultGenerator.generate(data));
+            return generatedData.map(outputFormatter::formatOutput);
     }
 }

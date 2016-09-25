@@ -21,7 +21,7 @@ public class MagicServiceTests {
                         () -> {
                             assertFalse(
                                     theTestedService.performComplexCalculations(
-                                            new Input("bad_file")).isPresent());
+                                            new Input("bad_file")).isRight());
                         })
         );
     }

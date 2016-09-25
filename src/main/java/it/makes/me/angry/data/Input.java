@@ -1,9 +1,14 @@
 package it.makes.me.angry.data;
 
-import java.io.IOException;
+import it.makes.me.angry.CalculationProblem;
+import javaslang.control.Either;
+import javaslang.control.Option;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public final class Input {
     public final String resourceName;
@@ -12,16 +17,25 @@ public final class Input {
         this.resourceName = resourceName;
     }
 
-    public URI getURI() throws IOException {//TODO: oh no, no checked exceptions anymore
+    public Either<CalculationProblem, Path> getPath() {
+        return getURI().map( Paths::get);
+    }
+
+
+
+    private Either<CalculationProblem, URI> getURI() {
+        final Option<URL> resource = Option.of(getClass().getResource("/" + this.resourceName));
+        return resource
+                .map(this::resourceToURI)
+                .getOrElse(Either.left(CalculationProblem.RESOURCE_NOT_FOUND));
+    }
+
+    private Either<CalculationProblem, URI> resourceToURI(final URL resource) {
         try {
-            final URL resource = getClass().getResource("/" + this.resourceName);
-            if (resource != null) { //TODO: remove this if
-                return resource.toURI();
-            } else {
-                throw new IOException("there is no " + this.resourceName); //TODO: do not throw
-            }
+            final URI uri = resource.toURI();
+            return Either.right(uri);
         } catch (URISyntaxException e) {
-            throw new IOException(e); //TODO: do not throw, please
+            return Either.left(it.makes.me.angry.CalculationProblem.WRONG_RESOURCE_NAME);
         }
     }
 }

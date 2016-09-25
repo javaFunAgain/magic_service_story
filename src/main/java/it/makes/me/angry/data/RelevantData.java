@@ -20,7 +20,4 @@ public class RelevantData {
         return dataColumns.hashCode();
     }
 
-
-
-
 }

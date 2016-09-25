@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -24,18 +23,18 @@ public class DataTransformerTests {
         );
         final DataTransformer theDataTransformer = new DataTransformer();
 
-        return Arrays.asList(
+        return Array.of(
                 dynamicTest(" should return BUBU region",
                         () -> {
-                            assertEquals("BUBU", theDataTransformer.transformToAccessibleFormat(relevantData).get(0).region);
+                            assertEquals("BUBU", theDataTransformer.transformToAccessibleFormat(relevantData).get().get(0).region);
                         }),
                 dynamicTest(" should return 7 events",
                         () -> {
-                            assertEquals(7, theDataTransformer.transformToAccessibleFormat(relevantData).get(0).events);
+                            assertEquals(7, theDataTransformer.transformToAccessibleFormat(relevantData).get().get(0).events);
                         }),
                 dynamicTest(" should return 87 participants",
                         () -> {
-                            assertEquals(87, theDataTransformer.transformToAccessibleFormat(relevantData).get(1).participants);
+                            assertEquals(87, theDataTransformer.transformToAccessibleFormat(relevantData).get().get(1).participants);
                         })
         );
     }

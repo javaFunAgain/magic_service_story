@@ -1,14 +1,17 @@
 package it.makes.me.angry.processors;
 
+
 import it.makes.me.angry.data.Input;
 import it.makes.me.angry.data.RawData;
 import it.makes.me.angry.data.RelevantData;
+import javaslang.collection.Array;
 import javaslang.collection.List;
+
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -17,9 +20,10 @@ public class DataExtractorTests {
     @TestFactory
     Iterable<DynamicTest> dataExtractorTests() throws IOException {
         final DataExtractor theExtractor = new DataExtractor();
-        final RawData inputData = new DataCollector().collectData(new Input("prabuty_poludniowe.csv"));
+        final  RawData inputData =
+                new DataCollector().collectData(new Input("prabuty_poludniowe.csv")).get();
 
-        return Arrays.asList(
+        return Array.of(
                 dynamicTest("result should have 6 rows",
                         () -> {
                             assertEquals(6, theExtractor.extractRelevant(inputData).size());

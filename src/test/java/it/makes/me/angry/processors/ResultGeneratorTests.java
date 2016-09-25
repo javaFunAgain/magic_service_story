@@ -2,13 +2,13 @@ package it.makes.me.angry.processors;
 
 
 import it.makes.me.angry.data.AccessibleDataFormat;
+import javaslang.collection.Array;
 import javaslang.collection.List;
 import javaslang.control.Option;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -22,14 +22,14 @@ public class ResultGeneratorTests {
                 new AccessibleDataFormat("ZUBU", Option.some("GMINY WIEJSKIE"), 6732, 148500)
         );
         final ResultGenerator theGenerator = new ResultGenerator();
-        return Arrays.asList(
+        return Array.of(
                 dynamicTest("result should have 1 row",
                         () -> {
-                            assertEquals(1, theGenerator.generate(inputList).size());
+                            assertEquals(1, theGenerator.generate(inputList).get().size());
                         }),
                 dynamicTest("result row schould have  correct average",
                         () -> {
-                            assertEquals(new BigDecimal(147200), theGenerator.generate(inputList).get(0).value);
+                            assertEquals(new BigDecimal(147200), theGenerator.generate(inputList).get().get(0).value);
                         })
 
         );
