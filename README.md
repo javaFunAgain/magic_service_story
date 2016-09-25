@@ -267,13 +267,6 @@ Tak zrobimy potem  z resztą testów, ale dopiero po naprawieniu API i wywaleniu
  
  Ale to w kolejnym odcinku.
 
-# W poprzednim odcinku 
-
-
-
-# W poprzednich odcinkach
-
-
 # Poprzednie odcinki
 [ODCINEK 1  Początek](ODCINEK1_PL.md)
 
