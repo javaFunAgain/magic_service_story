@@ -22,9 +22,9 @@ public class DataSelectorTests {
         final List<AccessibleDataFormat> inputList = List.of(
                 new AccessibleDataFormat("BUBU", Option.none(), 8, 90),
                 new AccessibleDataFormat("BUBU", Option.some("GMINA MIEJSKA"), 5, 45),
-                new AccessibleDataFormat("BUBU", Option.some("GMINA WIEJSKA"), 7332, PARTICIPANTS_BUBU),
-                new AccessibleDataFormat("ZUBU", Option.some("GMINA WIEJSKA"), 5232, PARTICIPANTS_ZUBU),
-                new AccessibleDataFormat("KUKUU", Option.some("GMINA WIEJSKA"), 74, 14500)
+                new AccessibleDataFormat("BUBU", Option.some("GMINY WIEJSKIE"), 7332, PARTICIPANTS_BUBU),
+                new AccessibleDataFormat("ZUBU", Option.some("GMINY WIEJSKIE"), 5232, PARTICIPANTS_ZUBU),
+                new AccessibleDataFormat("KUKUU", Option.some("GMINY WIEJSKIE"), 74, 14500)
 
         );
         final DataSelector theDataSelector = new DataSelector();
