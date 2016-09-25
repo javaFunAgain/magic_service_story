@@ -21,7 +21,7 @@ public class DataSelectorTests {
     Iterable<DynamicTest> dataSelectorTests() {
         final List<AccessibleDataFormat> inputList = List.of(
                 new AccessibleDataFormat("BUBU", Option.none(), 8, 90),
-                new AccessibleDataFormat("BUBU", Option.some("GMINA MIEJSKA"), 5, 45),
+                new AccessibleDataFormat("BUBU", Option.some("GMINY MIEJSKIE"), 5, 45),
                 new AccessibleDataFormat("BUBU", Option.some("GMINY WIEJSKIE"), 7332, PARTICIPANTS_BUBU),
                 new AccessibleDataFormat("ZUBU", Option.some("GMINY WIEJSKIE"), 5232, PARTICIPANTS_ZUBU),
                 new AccessibleDataFormat("KUKUU", Option.some("GMINY WIEJSKIE"), 74, 14500)
