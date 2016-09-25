@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 public class ResultGenerator {
     public Either<CalculationProblem, List<GeneratedResult>> generate(List<AccessibleDataFormat> filteredData) {
-        final BigDecimal sum = new BigDecimal(filteredData.map(data -> data.participants).reduce(
+        final BigDecimal sum = new BigDecimal(filteredData.map(data -> data.participants).foldLeft( 0L,
                 (a, b) -> a + b).intValue());
         if (filteredData.size() > 0) {
             return Either.right(List.of(new GeneratedResult(sum.divide(new BigDecimal(filteredData.size())))));

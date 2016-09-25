@@ -20,13 +20,16 @@ public class DataTransformer {
 
     private Either<CalculationProblem,AccessibleDataFormat> parse(RelevantData dt) {
         try {
+            if ( dt.dataColumns.size() < 4) { //TODO: this if looks bad( multiple return)
+                return Either.left(CalculationProblem.BAD_DATA_FORMAT);
+            }
             final String[] regions = dt.dataColumns.get(1).split("-");
             return Either.right(new AccessibleDataFormat(
                     regions[0].trim(),
                     regions.length == 2 ? Option.some(regions[1].trim()) : Option.none(),
                     Integer.parseInt(dt.dataColumns.get(2)),
                     Integer.parseInt(dt.dataColumns.get(3))));
-        } catch (final NumberFormatException dfe) {
+        } catch (final NumberFormatException | IndexOutOfBoundsException dfe) {
             return Either.<CalculationProblem,AccessibleDataFormat>left(CalculationProblem.BAD_DATA_FORMAT);
         }
 

@@ -48,6 +48,106 @@ Rewelacja.
  Tak, to w zasadzie wniosek z wielu lat praktyki - checked exceptions w javie to pomyłka!!!
  I nie tylko my tak sądzimy:  [Javas biggest mistake](http://literatejava.com/exceptions/checked-exceptions-javas-biggest-mistake/)
  
+ ## Totalna *Either*yzacja
+ Najpierw wprowadźmy klasę opisującą status obliczeń, a właściwie - co poszło nie tak.
+ ```
+ public enum CalculationProblem {
+     RESOURCE_NOT_FOUND,
+     WRONG_RESOURCE_NAME,
+     UNABLE_TO_LOAD_DATA,
+     BAD_DATA_FORMAT,
+     NOT_ENOUGH_DATA
+ }
+```
+
+Można by być bardziej szczegółowym i zamiast Enuma - dać Status z opisem (np. która linia się zepsuła),
+ale tu sobie odpuścimy.
+
+Teraz nasza główna metoda może zwracać:
+```public Either<CalculationProblem, Output> performComplexCalculations(Input input){```
+Czyli albo wynik, albo jaki problem.
+
+## Przekształcanie na Eithery
+Jak to wygląda można zobaczyć na przykładzie klasy Input:
+```
+public final class Input {
+    public final String resourceName;
+
+    public Input(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public Either<CalculationProblem, Path> getPath() {
+        return getURI().map( Paths::get);
+    }
+
+    private Either<CalculationProblem, URI> getURI() {
+        final Option<URL> resource = Option.of(getClass().getResource("/" + this.resourceName));
+        return resource
+                .map(this::resourceToURI)
+                .getOrElse(Either.left(CalculationProblem.RESOURCE_NOT_FOUND));
+    }
+
+    private Either<CalculationProblem, URI> resourceToURI(final URL resource) {
+        try {
+            final URI uri = resource.toURI();
+            return Either.right(uri);
+        } catch (URISyntaxException e) {
+            return Either.left(it.makes.me.angry.CalculationProblem.WRONG_RESOURCE_NAME);
+        }
+    }
+}
+```
+Czyli dość prostacko - jak coś sie wywali (Exception) - to nie rzucamy go dalej tylko zwracamy
+odpowiedni Either.left.
+
+Mogło by się wydawać głupie - ale zysk widać w metodzie głównej:
+```
+public Either<CalculationProblem, Output> performComplexCalculations(Input input){
+            final Either<CalculationProblem, RawData> rawData = dataCollector.collectData(input);
+            final Either<CalculationProblem, List<RelevantData>> relevantData =
+                    rawData.map( raw->dataExtractor.extractRelevant(raw));
+            Either<CalculationProblem,List<AccessibleDataFormat>> accessibleData =
+                     relevantData.flatMap( dataTransformer::transformToAccessibleFormat);
+            Either<CalculationProblem,List<AccessibleDataFormat>> filteredData =
+                    accessibleData.map( dataSelector::filter);
+            Either<CalculationProblem, List<GeneratedResult>> generatedData =
+                    filteredData.flatMap( data  -> resultGenerator.generate(data));
+            return generatedData.map(outputFormatter::formatOutput);
+    }
+```
+Ta metoda to teraz prosta seria obliczeń. Wyleciały wszystkie catch. 
+I testowanie staje się prostsze: zamiast
+ sprawdzania kolejnych exceptionów itp. po prostu testujemy kolejne przypadki tak jak normalne wartości!
+
+```
+ @TestFactory
+    Iterable<DynamicTest> magicServiceBasics() {
+        final MagicService theTestedService = new MagicService();
+        return Array.of(
+                forInputProblem("bad_file" ,CalculationProblem.RESOURCE_NOT_FOUND ),
+                forInputProblem("bad_file.csv" ,CalculationProblem.BAD_DATA_FORMAT ),
+                forInputProblem("too_short.csv" ,CalculationProblem.NOT_ENOUGH_DATA),
+                forInputOutput("prabuty_poludniowe.csv" ,"373603")
+                )
+                .map( testCase -> dynamicTest("Case :" + testCase, () -> {
+                    assertEquals(testCase._1,
+                            theTestedService.performComplexCalculations(
+                                    new Input(testCase._2)));
+                }) );
+    }
+```
+Chociaż, pewne problemy które potencjalnie mogą występować (mamy catch w kodzie). Nie dają się przetestować 
+(czyżby trzeba było Mocki podpiąć ? :-) .
+Dokładnie to - nie udaje się uzyskać normalnie sytuacji, żeby wystąpiło:
+ ```
+  public enum CalculationProblem {
+      ...
+      WRONG_RESOURCE_NAME,
+      UNABLE_TO_LOAD_DATA,
+      ...
+  }
+ ```
 
 # Poprzednie odcinki
 [ODCINEK 1  Początek](ODCINEK1_PL.md)

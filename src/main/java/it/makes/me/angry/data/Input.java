@@ -21,8 +21,6 @@ public final class Input {
         return getURI().map( Paths::get);
     }
 
-
-
     private Either<CalculationProblem, URI> getURI() {
         final Option<URL> resource = Option.of(getClass().getResource("/" + this.resourceName));
         return resource
