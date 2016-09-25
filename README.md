@@ -213,8 +213,8 @@ public class DataSelector {
     }
 }
 ```
-Łatwo też było napisać testy tej funkcjonalności.
-### **ResultGenerator**
+Łatwo też było napisać testy tej funkcjonalności. (Wstanie kodu pomijamy - powtarzalne schematy).
+### I robimy **ResultGenerator**
 Tu z automatu (przypominam, że liczymy średnią). A cudo wygląda tak:
 ```
 public class ResultGenerator {
