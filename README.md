@@ -101,4 +101,5 @@ więcej niż 5tys imprez na Rok 2015, w  gminach wiejskich! (daje issue)
 
 # Poprzednie odcinki
 [ODCINEK 1  Początek](ODCINEK1_PL.md)
+
 [ODCINEK 2  NIech to się chociaż skompiluje](ODCINEK2_PL.md)
