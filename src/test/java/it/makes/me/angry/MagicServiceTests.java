@@ -3,17 +3,14 @@ package it.makes.me.angry;
 
 import it.makes.me.angry.data.Input;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 public class MagicServiceTests {
-
 
 
     @TestFactory
@@ -22,9 +19,9 @@ public class MagicServiceTests {
         return Arrays.asList(
                 dynamicTest("should return empty if file does not exist",
                         () -> {
-                             assertFalse(
-                                     theTestedService.performComplexCalculations(
-                                             new Input("bad_file")).isPresent());
+                            assertFalse(
+                                    theTestedService.performComplexCalculations(
+                                            new Input("bad_file")).isPresent());
                         })
         );
     }

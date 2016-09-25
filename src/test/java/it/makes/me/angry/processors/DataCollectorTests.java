@@ -1,6 +1,5 @@
 package it.makes.me.angry.processors;
 
-import it.makes.me.angry.MagicService;
 import it.makes.me.angry.data.Input;
 import it.makes.me.angry.data.RawData;
 import org.junit.jupiter.api.DynamicTest;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.TestFactory;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 public class DataCollectorTests {

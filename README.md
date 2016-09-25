@@ -207,10 +207,62 @@ Który załatwiamy prostacko:
 ```
 public class DataSelector {
     public List<AccessibleDataFormat> filter(List<AccessibleDataFormat> accessibleData) {
-        return accessibleData.filter(data -> data.type.eq(Option.some("GMINA WIEJSKA")));
+        return accessibleData
+                .filter(data -> data.type.eq(Option.some("GMINA WIEJSKA")))
+                .filter( data -> data.events > 5000);
     }
 }
 ```
+Łatwo też było napisać testy tej funkcjonalności.
+### **ResultGenerator**
+Tu z automatu (przypominam, że liczymy średnią). A cudo wygląda tak:
+```
+public class ResultGenerator {
+    public List<GeneratedResult> generate(List<AccessibleDataFormat> filteredData)
+            throws GenerationException {
+        final BigDecimal sum = new BigDecimal(filteredData.map(data -> data.participants).reduce(
+                (a,b)-> a+ b).intValue());
+        if ( filteredData.size() > 0 ) {
+            return List.of(new GeneratedResult(sum.divide( new BigDecimal(filteredData.size()))));
+        } else {
+            throw new GenerationException();
+        }
+    }
+}
+```
+Paskudny... ale da się naprawić (potem).
+
+###  Zostaje tylko OutputFormatter
+Który to jest trywialny, ale  za to zobaczmy testy, które pokazują po co bawić sie w *JUNIT5* i dynamic tests.
+ ```
+  @TestFactory
+     Iterable<DynamicTest> testOutput() {
+         final OutputFormatter theOututFormatter = new OutputFormatter();
+         final Array<Tuple2<BigDecimal, String>> testCases = Array.of(
+                 Tuple.of(new BigDecimal("665.99"), "666"),
+                 Tuple.of(new BigDecimal("666"), "666"),
+                 Tuple.of(new BigDecimal("0.00"), "0")
+         );
+         return testCases.map(
+                 (Tuple2<BigDecimal, String> testCase) -> dynamicTest("should return empty if file does not exist", () -> {
+                     final List<GeneratedResult> sampleResult = List.of(new GeneratedResult(testCase._1));
+                     assertEquals(testCase._2, theOututFormatter.formatOutput(sampleResult).value);
+                 }));
+     }
+ ```
+Jak widać tanio można zrobić testy parametryczne (i to bez magii  - jak to było we wcześniejszym Junit).
+Tak zrobimy potem  z resztą testów, ale dopiero po naprawie API i wywaleniu checked exceptions.
+
+## Ufff  - koniec
+ Teraz mamy już aplikację, która w ogólności chyba przypomina zamysł autora. Jedyna różnica - to to, że pewnie
+  autor miał tam jakiegoś Springa, Guice czy inny framework do wsztrykiwania. 
+  A my nie mamy - bo nie było potrzeby.
+  Dorobimy sobie później taką taką potrzebę, ale najpierw trzeba kod gruntownie ponaprawiać.  
+ 
+ Ale to w kolejnym odcinku.
+
+
+
 
 # W poprzednim odcinku 
 
