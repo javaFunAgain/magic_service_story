@@ -213,7 +213,8 @@ public class DataSelector {
     }
 }
 ```
-Łatwo też było napisać testy tej funkcjonalności. (Wstanie kodu pomijamy - powtarzalne schematy).
+Łatwo też było napisać testy tej funkcjonalności. (Jest do zobaczenia w źródłach).
+
 ### I robimy **ResultGenerator**
 Tu z automatu (przypominam, że liczymy średnią). A cudo wygląda tak:
 ```
@@ -233,7 +234,7 @@ public class ResultGenerator {
 Paskudny... ale da się naprawić (potem).
 
 ###  Zostaje tylko OutputFormatter
-Który to jest trywialny, ale  za to zobaczmy testy, które pokazują po co bawić sie w *JUNIT5* i dynamic tests.
+Który to jest trywialny, ale  za to zobaczmy testy, które pokazują: po co bawić sie w *JUNIT5* i dynamic tests.
  ```
   @TestFactory
      Iterable<DynamicTest> testOutput() {
@@ -250,13 +251,18 @@ Który to jest trywialny, ale  za to zobaczmy testy, które pokazują po co bawi
                  }));
      }
  ```
-Jak widać tanio można zrobić testy parametryczne (i to bez magii  - jak to było we wcześniejszym Junit).
-Tak zrobimy potem  z resztą testów, ale dopiero po naprawie API i wywaleniu checked exceptions.
+Jak widać tanio można zrobić testy parametryczne (i to bez magii  - jak to było we wcześniejszym JUnit).
+Tak zrobimy potem  z resztą testów, ale dopiero po naprawieniu API i wywaleniu checked exceptions.
 
 ## Ufff  - koniec
  Teraz mamy już aplikację, która w ogólności chyba przypomina zamysł autora. Jedyna różnica - to to, że pewnie
-  autor miał tam jakiegoś Springa, Guice czy inny framework do wsztrykiwania. 
+  autor miał tam jakiegoś Springa, Guice czy inny framework do wstrzykiwania. 
   A my nie mamy - bo nie było potrzeby.
+  Tu wrzucamy stosowny cytat:
+  > "A good architecture maximizes the number of decisions NOT made".
+    - Robert C. Martin, 
+  
+  
   Dorobimy sobie później taką taką potrzebę, ale najpierw trzeba kod gruntownie ponaprawiać.  
  
  Ale to w kolejnym odcinku.
