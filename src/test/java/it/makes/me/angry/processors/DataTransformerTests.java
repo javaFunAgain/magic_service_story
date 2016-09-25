@@ -20,7 +20,7 @@ public class DataTransformerTests {
 
         final List<RelevantData> relevantData = List.of(
                 createSampleRelevantData("BUBU", Option.none(), 7, 77),
-                createSampleRelevantData("BUBU", Option.some("GMINA WIEJSKA"), 8, 87)
+                createSampleRelevantData("BUBU", Option.some("GMINY WIEJSKIE"), 8, 87)
         );
         final DataTransformer theDataTransformer = new DataTransformer();
 

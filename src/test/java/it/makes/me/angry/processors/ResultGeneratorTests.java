@@ -18,8 +18,8 @@ public class ResultGeneratorTests {
     Iterable<DynamicTest> dataSelectorTests() {
         final List<AccessibleDataFormat> inputList = List.of(
 
-                new AccessibleDataFormat("BUBU", Option.some("GMINA WIEJSKA"), 5232, 145900),
-                new AccessibleDataFormat("ZUBU", Option.some("GMINA WIEJSKA"), 6732, 148500)
+                new AccessibleDataFormat("BUBU", Option.some("GMINY WIEJSKIE"), 5232, 145900),
+                new AccessibleDataFormat("ZUBU", Option.some("GMINY WIEJSKIE"), 6732, 148500)
         );
         final ResultGenerator theGenerator = new ResultGenerator();
         return Arrays.asList(

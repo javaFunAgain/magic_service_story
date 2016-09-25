@@ -7,7 +7,7 @@ import javaslang.control.Option;
 public class DataSelector {
     public List<AccessibleDataFormat> filter(List<AccessibleDataFormat> accessibleData) {
         return accessibleData
-                .filter(data -> data.type.eq(Option.some("GMINA WIEJSKA")))
+                .filter(data -> data.type.eq(Option.some("GMINY WIEJSKIE")))
                 .filter( data -> data.events > 5000);
     }
 }
