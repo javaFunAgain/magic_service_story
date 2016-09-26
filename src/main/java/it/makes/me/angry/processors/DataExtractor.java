@@ -6,12 +6,12 @@ import javaslang.collection.Array;
 import javaslang.collection.List;
 
 public class DataExtractor {
-    public List<RelevantData> extractRelevant(RawData rawData) {
+    public RelevantData extractRelevant(RawData rawData) {
         final String[] rows = rawData.fileContent.split("\n");
-        return List.of(rows).drop(1).map( this::splitRow);
+        return new RelevantData(List.of(rows).drop(1).map( this::splitRow));
     }
 
-    private  RelevantData splitRow(final String row) {
-        return new RelevantData(Array.of (row.split(";")).map(s->s.replaceAll("\"(.*)\"","$1")) );
+    private  RelevantData.DataRow splitRow(final String row) {
+        return new RelevantData.DataRow(Array.of (row.split(";")).map(s->s.replaceAll("\"(.*)\"","$1")) );
     }
 }

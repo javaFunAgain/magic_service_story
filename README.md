@@ -148,6 +148,44 @@ Dokładnie to - nie udaje się uzyskać normalnie sytuacji, żeby wystąpiło:
       ...
   }
  ```
+Mamy na to w zanadrzu rozwiązanie, ale jeszcze na nie nie czas.
+
+## Poprawmy trochę Typy
+W trakcie prac zauważyliśmy, że trochę kuleje enkapsulacja. 
+Niezbyt fajnie wyglądają wyrzucone na wierzch Listy w głównej metodzie.
+
+Powinno się albo pisać listaX.map( transformruj element  ), albo operować
+na Typach enkapsulujących listę.
+czyli taki kod:
+ ```
+ public List<AccessibleDataFormat> transformToAccessibleFormat(List<RelevantData> relevantData)
+ ```
+ To średni pomysł. 
+ Lepiej już zrobić metodę konwertującą wiersz **RelevantData** na**AccessibleDataFormat**.
+ I wywoływać map( ... ).
+  
+  Można też całkiem ukryć Listy w API (enkapsulując je). Potworzy to mnóstwo nowych klas - ale
+  może być zabawne. (Czyli tak zrobim).
+ 
+## Efekty
+Teraz **MagicService** wygląda tak:
+```
+public Either<CalculationProblem, Output> performComplexCalculations(Input input){
+            final Either<CalculationProblem, RawData> rawData = dataCollector.collectData(input);
+            final Either<CalculationProblem, RelevantData> relevantData =
+                    rawData.map( raw->dataExtractor.extractRelevant(raw));
+            Either<CalculationProblem,AccessibleDataFormat> accessibleData =
+                     relevantData.flatMap( dataTransformer::transformToAccessibleFormat);
+            Either<CalculationProblem,AccessibleDataFormat> filteredData =
+                    accessibleData.map( dataSelector::filter);
+            Either<CalculationProblem, GeneratedResult> generatedData =
+                    filteredData.flatMap( data  -> resultGenerator.generate(data));
+            return generatedData.map(outputFormatter::formatOutput);
+    }
+```
+Znikły listy - został Either - można z tym żyć.
+I chyba w następnym odcinku dojdziemy do konkretów.
+
 
 # Poprzednie odcinki
 [ODCINEK 1  Początek](ODCINEK1_PL.md)
@@ -155,3 +193,5 @@ Dokładnie to - nie udaje się uzyskać normalnie sytuacji, żeby wystąpiło:
 [ODCINEK 2  Niech to się chociaż skompiluje](ODCINEK2_PL.md)
 
 [ODCINEK 3  Robimy pierwszy test](ODCINEK3_PL.md)
+
+[ODCINEK 4  Wszystko działa](ODCINEK4_PL.md)

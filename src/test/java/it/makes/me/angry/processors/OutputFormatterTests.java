@@ -26,7 +26,7 @@ public class OutputFormatterTests {
         );
         return testCases.map(
                 (Tuple2<BigDecimal, String> testCase) -> dynamicTest("should return empty if file does not exist", () -> {
-                    final List<GeneratedResult> sampleResult = List.of(new GeneratedResult(testCase._1));
+                    final GeneratedResult sampleResult = new GeneratedResult(testCase._1);
                     assertEquals(testCase._2, theOututFormatter.formatOutput(sampleResult).value);
                 }));
     }

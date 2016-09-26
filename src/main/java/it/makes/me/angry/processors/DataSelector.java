@@ -5,9 +5,10 @@ import javaslang.collection.List;
 import javaslang.control.Option;
 
 public class DataSelector {
-    public List<AccessibleDataFormat> filter(List<AccessibleDataFormat> accessibleData) {
-        return accessibleData
+    public AccessibleDataFormat filter(AccessibleDataFormat accessibleData) {
+        return new AccessibleDataFormat(accessibleData
+                .rows
                 .filter(data -> data.type.eq(Option.some("GMINY WIEJSKIE")))
-                .filter( data -> data.events > 5000);
+                .filter( data -> data.events > 5000));
     }
 }

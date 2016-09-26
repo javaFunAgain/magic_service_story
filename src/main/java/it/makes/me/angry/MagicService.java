@@ -21,13 +21,13 @@ public class MagicService {
 
     public Either<CalculationProblem, Output> performComplexCalculations(Input input){
             final Either<CalculationProblem, RawData> rawData = dataCollector.collectData(input);
-            final Either<CalculationProblem, List<RelevantData>> relevantData =
+            final Either<CalculationProblem, RelevantData> relevantData =
                     rawData.map( raw->dataExtractor.extractRelevant(raw));
-            Either<CalculationProblem,List<AccessibleDataFormat>> accessibleData =
+            Either<CalculationProblem,AccessibleDataFormat> accessibleData =
                      relevantData.flatMap( dataTransformer::transformToAccessibleFormat);
-            Either<CalculationProblem,List<AccessibleDataFormat>> filteredData =
+            Either<CalculationProblem,AccessibleDataFormat> filteredData =
                     accessibleData.map( dataSelector::filter);
-            Either<CalculationProblem, List<GeneratedResult>> generatedData =
+            Either<CalculationProblem, GeneratedResult> generatedData =
                     filteredData.flatMap( data  -> resultGenerator.generate(data));
             return generatedData.map(outputFormatter::formatOutput);
     }

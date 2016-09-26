@@ -2,6 +2,7 @@ package it.makes.me.angry;
 
 
 import it.makes.me.angry.data.Input;
+import it.makes.me.angry.data.Output;
 import javaslang.Tuple;
 import javaslang.Tuple2;
 import javaslang.collection.Array;
@@ -33,11 +34,11 @@ public class MagicServiceTests {
                 }) );
     }
 
-    private Tuple2<Either<CalculationProblem, String>, String> forInputOutput(
+    private Tuple2<Either<CalculationProblem, Output>, String> forInputOutput(
             final String file, final String output ) {
-        return Tuple.of(Either.right(output), file );
+        return Tuple.of(Either.right(new Output(output)), file );
     }
-    private Tuple2<Either<CalculationProblem, String>, String> forInputProblem(
+    private Tuple2<Either<CalculationProblem, Output>, String> forInputProblem(
             final String file, final CalculationProblem problem ) {
         return Tuple.of(Either.left(problem), file);
     }

@@ -16,20 +16,16 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 public class ResultGeneratorTests {
     @TestFactory
     Iterable<DynamicTest> dataSelectorTests() {
-        final List<AccessibleDataFormat> inputList = List.of(
+        final AccessibleDataFormat inputList =  new AccessibleDataFormat(List.of(
 
-                new AccessibleDataFormat("BUBU", Option.some("GMINY WIEJSKIE"), 5232, 145900),
-                new AccessibleDataFormat("ZUBU", Option.some("GMINY WIEJSKIE"), 6732, 148500)
+                new AccessibleDataFormat.AccessibleDataRow("BUBU", Option.some("GMINY WIEJSKIE"), 5232, 145900),
+                new AccessibleDataFormat.AccessibleDataRow("ZUBU", Option.some("GMINY WIEJSKIE"), 6732, 148500))
         );
         final ResultGenerator theGenerator = new ResultGenerator();
         return Array.of(
-                dynamicTest("result should have 1 row",
-                        () -> {
-                            assertEquals(1, theGenerator.generate(inputList).get().size());
-                        }),
                 dynamicTest("result row schould have  correct average",
                         () -> {
-                            assertEquals(new BigDecimal(147200), theGenerator.generate(inputList).get().get(0).value);
+                            assertEquals(new BigDecimal(147200), theGenerator.generate(inputList).get().value);
                         })
 
         );

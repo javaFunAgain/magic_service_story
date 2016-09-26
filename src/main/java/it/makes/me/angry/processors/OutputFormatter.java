@@ -7,9 +7,7 @@ import javaslang.collection.List;
 import java.math.BigDecimal;
 
 public class OutputFormatter {
-    public Output formatOutput(List<GeneratedResult> generatedData) {
-        return new Output(generatedData
-                .map( data->data.value.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString())
-                .reduce((a,b) -> a+b));
+    public Output formatOutput(GeneratedResult generatedData) {
+        return new Output(generatedData.value.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString());
     }
 }

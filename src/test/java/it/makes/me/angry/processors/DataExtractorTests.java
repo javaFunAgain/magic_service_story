@@ -26,32 +26,26 @@ public class DataExtractorTests {
         return Array.of(
                 dynamicTest("result should have 6 rows",
                         () -> {
-                            assertEquals(6, theExtractor.extractRelevant(inputData).size());
+                            assertEquals(6, theExtractor.extractRelevant(inputData).rows.size());
                         }),
                 dynamicTest("result should have 6 rows",
                         () -> {
-                            assertEquals("7237", theExtractor.extractRelevant(inputData).get(0).dataColumns.get(2));//TODO: we know too much about RelevantData
+                            assertEquals("7237", theExtractor.extractRelevant(inputData).rows.get(0).dataColumns.get(2));//TODO: we know too much about RelevantData
                         }),
                 dynamicTest("result should have 6 rows",
                         () -> {
-                            assertEquals("406778", theExtractor.extractRelevant(inputData).get(5).dataColumns.get(3));
+                            assertEquals("406778", theExtractor.extractRelevant(inputData).rows.get(5).dataColumns.get(3));
                         }),
                 dynamicTest("result should have 6 rows",
                         () -> {
-                            assertEquals("PRABUTY POL", theExtractor.extractRelevant(inputData).get(0).dataColumns.get(1));
+                            assertEquals("PRABUTY POL", theExtractor.extractRelevant(inputData).rows.get(0).dataColumns.get(1));
                         }),
                 dynamicTest("result should have 6 rows",
                         () -> {
-                            assertEquals("PRABUTY POL - GMINY MIEJSKIE", theExtractor.extractRelevant(inputData).get(1).dataColumns.get(1));
+                            assertEquals("PRABUTY POL - GMINY MIEJSKIE", theExtractor.extractRelevant(inputData).rows.get(1).dataColumns.get(1));
                         })
 
         );
     }
-
-
-    private String getValue(final List<RelevantData> data, int row, int cell) {
-        return data.get(row).dataColumns.get(cell);
-    }
-
 
 }
