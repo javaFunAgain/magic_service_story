@@ -20,16 +20,22 @@ public Either<CalculationProblem, Output> performComplexCalculations(Input input
     }
 ```
 Gdy na spokojnie popatrzeć na główną metodę to  widać, że w sumie:
+
 1. Przyjmuje ona pewne dane wejściowe  (po nazwie "pliku")
+
 2. Obrabia je
+
 3. Tworzy output
 
 Strasznie to odkrywcze (chyba każda metoda tak robi :-)  ).
 
 Ale to oznacza, że z pewnością nie potrzebujemy 6 zależności.
 Wystarczą góra 3:
+
 1.  Jakiś zapodawacz danych - **DataProducer**  stworzy **AccessibleDataFormat**
+
 2. Jakiś obrabiacz danych - **DataProcessor** przerobi je na **GeneratedData**
+
 3. I jakiś wypluwacz - **OutputFormatter** - był i będzie
  
  Do boju!
@@ -61,6 +67,10 @@ Wystarczą góra 3:
      }
  }
 ```
+Warto zauważyć, że nie chciało się nam robić konfigurowanej 
+zależności od **OutputFormattera**, no bo kto by go zmieniał.
+
+
 Oczywiście, część logiki wynieslismy np. do:
 ```
 public class ResourceDataProducer implements  DataProducer{
