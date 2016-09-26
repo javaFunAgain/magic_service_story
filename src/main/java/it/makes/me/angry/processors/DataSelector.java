@@ -1,7 +1,5 @@
 package it.makes.me.angry.processors;
 
-import it.makes.me.angry.data.AccessibleDataFormat;
-import javaslang.collection.List;
 import javaslang.control.Option;
 
 public class DataSelector {

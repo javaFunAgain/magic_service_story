@@ -1,4 +1,4 @@
-package it.makes.me.angry.data;
+package it.makes.me.angry.processors;
 
 import java.math.BigDecimal;
 

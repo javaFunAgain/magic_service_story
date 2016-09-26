@@ -3,6 +3,10 @@ package it.makes.me.angry;
 
 import it.makes.me.angry.data.Input;
 import it.makes.me.angry.data.Output;
+import it.makes.me.angry.processors.AverageParticipantsProcessor;
+import it.makes.me.angry.processors.GenerationProblem;
+import it.makes.me.angry.producer.InputProblem;
+import it.makes.me.angry.producer.ResourceDataProducer;
 import javaslang.Tuple;
 import javaslang.Tuple2;
 import javaslang.collection.Array;
@@ -20,11 +24,12 @@ public class MagicServiceTests {
 
     @TestFactory
     Iterable<DynamicTest> magicServiceBasics() {
-        final MagicService theTestedService = new MagicService();
+        final MagicService theTestedService = new MagicService( new ResourceDataProducer(),
+                new AverageParticipantsProcessor());
         return Array.of(
-                forInputProblem("bad_file" ,CalculationProblem.RESOURCE_NOT_FOUND ),
-                forInputProblem("bad_file.csv" ,CalculationProblem.BAD_DATA_FORMAT ),
-                forInputProblem("too_short.csv" ,CalculationProblem.NOT_ENOUGH_DATA),
+                forProblem("bad_file" ,InputProblem.RESOURCE_NOT_FOUND ),
+                forProblem("bad_file.csv" ,InputProblem.BAD_DATA_FORMAT ),
+                forProblem("too_short.csv" , GenerationProblem.NOT_ENOUGH_DATA),
                 forInputOutput("prabuty_poludniowe.csv" ,"373603")
                 )
                 .map( testCase -> dynamicTest("Case :" + testCase, () -> {
@@ -38,9 +43,13 @@ public class MagicServiceTests {
             final String file, final String output ) {
         return Tuple.of(Either.right(new Output(output)), file );
     }
-    private Tuple2<Either<CalculationProblem, Output>, String> forInputProblem(
-            final String file, final CalculationProblem problem ) {
-        return Tuple.of(Either.left(problem), file);
+    private Tuple2<Either<CalculationProblem, Output>, String> forProblem(
+            final String file, final InputProblem problem ) {
+        return Tuple.of(Either.left(new CalculationProblem(problem)), file);
+    }
+    private Tuple2<Either<CalculationProblem, Output>, String> forProblem(
+            final String file, final GenerationProblem problem ) {
+        return Tuple.of(Either.left(new CalculationProblem(problem)), file);
     }
 
 }

@@ -1,8 +1,7 @@
-package it.makes.me.angry.processors;
+package it.makes.me.angry.output;
 
-import it.makes.me.angry.data.GeneratedResult;
+import it.makes.me.angry.processors.GeneratedResult;
 import it.makes.me.angry.data.Output;
-import javaslang.collection.List;
 
 import java.math.BigDecimal;
 

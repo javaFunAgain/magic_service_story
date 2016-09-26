@@ -1,4 +1,4 @@
-package it.makes.me.angry.data;
+package it.makes.me.angry.producer;
 
 import javaslang.collection.Array;
 import javaslang.collection.List;

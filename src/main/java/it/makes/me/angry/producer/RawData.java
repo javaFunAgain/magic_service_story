@@ -1,7 +1,5 @@
-package it.makes.me.angry.data;
+package it.makes.me.angry.producer;
 
-
-import javaslang.collection.List;
 
 public class RawData {
     public final String fileContent;

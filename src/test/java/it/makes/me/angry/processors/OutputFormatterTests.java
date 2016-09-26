@@ -1,11 +1,10 @@
 package it.makes.me.angry.processors;
 
 
-import it.makes.me.angry.data.GeneratedResult;
+import it.makes.me.angry.output.OutputFormatter;
 import javaslang.Tuple;
 import javaslang.Tuple2;
 import javaslang.collection.Array;
-import javaslang.collection.List;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 

@@ -2,10 +2,10 @@ package it.makes.me.angry.processors;
 
 
 import it.makes.me.angry.data.Input;
-import it.makes.me.angry.data.RawData;
-import it.makes.me.angry.data.RelevantData;
+import it.makes.me.angry.producer.RawData;
+import it.makes.me.angry.producer.DataCollector;
+import it.makes.me.angry.producer.DataExtractor;
 import javaslang.collection.Array;
-import javaslang.collection.List;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;

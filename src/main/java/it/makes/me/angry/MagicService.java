@@ -2,33 +2,32 @@ package it.makes.me.angry;
 
 
 import it.makes.me.angry.data.*;
-import it.makes.me.angry.hell.GenerationException;
+import it.makes.me.angry.output.OutputFormatter;
 import it.makes.me.angry.processors.*;
-import javaslang.collection.List;
+import it.makes.me.angry.producer.*;
 import javaslang.control.Either;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.zip.DataFormatException;
-
 public class MagicService {
-    private final DataCollector dataCollector  = new DataCollector();
-    private final DataExtractor dataExtractor  =  new DataExtractor();
-    private final DataTransformer dataTransformer = new DataTransformer();
-    private final DataSelector dataSelector = new DataSelector();
-    private final ResultGenerator resultGenerator  = new ResultGenerator();
+    private final DataProducer dataProducer;
+
+    private final DataProcessor dataProcessor;
+
     private final OutputFormatter outputFormatter = new OutputFormatter();
 
+    public MagicService(DataProducer dataProducer, DataProcessor dataProcessor) {
+        this.dataProducer = dataProducer;
+        this.dataProcessor = dataProcessor;
+    }
+
     public Either<CalculationProblem, Output> performComplexCalculations(Input input){
-            final Either<CalculationProblem, RawData> rawData = dataCollector.collectData(input);
-            final Either<CalculationProblem, RelevantData> relevantData =
-                    rawData.map( raw->dataExtractor.extractRelevant(raw));
-            Either<CalculationProblem,AccessibleDataFormat> accessibleData =
-                     relevantData.flatMap( dataTransformer::transformToAccessibleFormat);
-            Either<CalculationProblem,AccessibleDataFormat> filteredData =
-                    accessibleData.map( dataSelector::filter);
-            Either<CalculationProblem, GeneratedResult> generatedData =
-                    filteredData.flatMap( data  -> resultGenerator.generate(data));
+            final Either<InputProblem, AccessibleDataFormat> inputData = dataProducer.extractData(input);
+            final Either<CalculationProblem, GeneratedResult> generatedData =
+                    inputData
+                            .mapLeft( prob ->new CalculationProblem(prob))
+                            .flatMap( data -> dataProcessor.process(data).mapLeft(
+                                    prob -> new CalculationProblem(prob)
+                            ));
+
             return generatedData.map(outputFormatter::formatOutput);
     }
 }

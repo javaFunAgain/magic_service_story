@@ -1,6 +1,7 @@
 package it.makes.me.angry.processors;
 
-import it.makes.me.angry.data.RelevantData;
+import it.makes.me.angry.producer.DataTransformer;
+import it.makes.me.angry.producer.RelevantData;
 import javaslang.collection.Array;
 import javaslang.collection.List;
 import javaslang.control.Option;
