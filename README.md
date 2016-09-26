@@ -35,7 +35,7 @@ Rewelacja.
  Rzeczy które najbardziej dołują to:
  
  1. Używanie Exceptionów (przy czym złe - bo na wyjściu w razie czego jest Optional.empty)
- 2. Różne poziomy abstrackji - z jednej strony przetwarzamy RawData - a zdrugiej  List of coś tam.
+ 2. Różne poziomy abstrakcyj - z jednej strony przetwarzamy RawData - a zdrugiej  List of coś tam.
  3. Za dużo zależności (6)  i opdowiedzialności w *MagicService*
  
  ## Zacznijmy od Exceptionów 
@@ -148,7 +148,7 @@ Dokładnie to - nie udaje się uzyskać normalnie sytuacji, żeby wystąpiło:
       ...
   }
  ```
-Mamy na to w zanadrzu rozwiązanie, ale jeszcze na nie nie czas.
+Mamy na to w zanadrzu rozwiązanie, ale jeszcze przyjdzie nie nie czas (odcinek 78).
 
 ## Poprawmy trochę Typy
 W trakcie prac zauważyliśmy, że trochę kuleje enkapsulacja. 
@@ -183,7 +183,7 @@ public Either<CalculationProblem, Output> performComplexCalculations(Input input
             return generatedData.map(outputFormatter::formatOutput);
     }
 ```
-Znikły listy - został Either - można z tym żyć.
+Znikły listy - został Either - można z tym żyć. 
 I chyba w następnym odcinku dojdziemy do konkretów.
 
 
