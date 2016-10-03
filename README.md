@@ -181,6 +181,20 @@ Jest jednak  pewna różnica - w **JUnit4** testy parametryczne
 Nie musimy pamiętać np. żeby jakiś konstruktor miał X parametrów itp.,
 jak się ilośc parametrów nie zgodzi to się nie skompiluje - tak powinno być!!!
 
+## Czyli jakten **equals** wygląda
+
+Dzięki **Option** z javaslang (**Optional** z java.util podobnie), możemy to całkiem
+ ładnie napisać:
+ ```
+ @Override
+     public boolean equals(final Object o) {
+         return Option.of(o)
+                 .map( right-> fileContent.equals(((RawData)right).fileContent))
+                 .getOrElse(false);
+     }
+```
+
+
 ## Jak testować *internalsy*
 (Ogólnie nie wiem co znaczy *internalsy*, ale podoba mi się ta nazwa).
 W jednym z komentarzy do wątku pojawiło się zagadnienie testowania czy np. metoda filter się wykona.
