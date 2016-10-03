@@ -42,10 +42,10 @@ Jak się dobrze przyjrzeć to ostatni punkt nie jest spełniony.
 Przy okazji, uważam, że ten kontrakt jest głupi - jeśli ktoś jest takim szaleńcem, żeby używać **null** to
 **NullPointerException** należy mu się jak psu zupa! To są jednak zaszłości  historyczne i fakt.
 A skoro taki kontrakt ustalono - to już niestety trzeba go przestrzegać - bo można się spoktać z dziwnymi efektami 
-( a nuż widelec jakaś dziwna mapa, czy lista tego porównania używa).
+( a nuż - widelec jakaś dziwna mapa, czy lista tego założenia używa).
 
 ## Napiszmy więc Test
-Przy pomocy JUnit5 można zmontować całkiem zgrabne testy na wszystkie  i jeszcze troche przypadków.
+Przy pomocy **JUnit5** można zmontować całkiem zgrabne testy na wszystkie  i jeszcze troche przypadków.
 ```
 public class EqualsTests {
 
@@ -173,12 +173,11 @@ Ktoś może powiedzieć:
 > ale przeciez to zwykłe testy parametryczne - to już było np. w **JUnit 4**
 
 Jest jednak  pewna różnica - w **JUnit4** testy parametryczne
- działały dzięki *magii*  czyli refleksje. Jeśli coś nie zadziałało 
+ działały dzięki *magii*  (zwanej też refleksją). Jeśli coś nie zadziałało 
  to w zasadzie można było się tylko odnieść do kodu JUnit i tam grzebać.
  W **JUnit5** dzięki podejściu funkcyjnemu ilość magii zdecydowanie
- się zmniejsza - sami jesteśmy odpowiedzialni za ich wygenerowanie.
- Jak coś nam nie idzie  - to możemy przestestować Testy :-).
-Dodatkowo cały czas bardzo ładnie podpowiada nam kompilator.
+ się zmniejsza - sami jesteśmy odpowiedzialni za wygenerowanie testów.
+ Dodatkowo cały czas  ładnie podpowiada nam kompilator.
 Nie musimy pamiętać np. żeby jakiś konstruktor miał X parametrów itp.,
 jak się ilośc parametrów nie zgodzi to się nie skompiluje - tak powinno być!!!
 
@@ -196,9 +195,17 @@ public class DataSelector {
     }
 }
 ```
+I jej użycie w **AverageParticipantsProcessor**:
+```
+public Either<GenerationProblem, GeneratedResult> process(final AccessibleDataFormat data) {
+        return resultGenerator.generate(dataSelector.filter(data));
+    }
+```
+
 Zasadniczo odpowiedź jest jedna - najlepiej tego nie testować.
+
 No bo co nas obchodzi czy metoda wywołała ten filter - czy nie.
-Istotne sa wyniki - sprawdźmy  i na chwilę wywalmy...
+Istotne sa wyniki - sprawdźmy  i na chwilę wywalmy ten **filter**...
 ``` Failures (2):
     JUnit Jupiter:MagicServiceTests:magicServiceBasics():Case :(Left(CalculationProblem{inputProblem=None, generationProblem=Some(NOT_ENOUGH_DATA)}), too_short.csv)
       JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
@@ -207,12 +214,14 @@ Istotne sa wyniki - sprawdźmy  i na chwilę wywalmy...
       JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
       => org.opentest4j.AssertionFailedError: expected: <Right(it.makes.me.angry.data.Output@5a26340a)> but was: <Right(it.makes.me.angry.data.Output@5d67657e)>
 ```
-Czyli jak widać - dzięki temu, że napisalismy już odpowiednie testy mamy to sprawdzenie i nic więcej nie potrzeba!
-Chejk natręci - zostawcie  metody w spokoju! 
+Pięknie - testy nie przeszły! Mamy już najlepsze sprawdzenie - bo wywalenie filter zabuża wyniki i testy się wykrzaczają.
+Niepotrzeba żadnego sprawdzania typu *verify method called exactly once*!
+Chola natręci - zostawcie  metody w spokoju! 
 Sprawdzacie input, output, a jak sobie metoda do tego doszła i co wywołała to jej sprawa.
-W istocie im bardziej natrętne testy, które sprawdzaja np. czy odpowiednia metoda była z środka wywołana, tym trudniejszy
-refaktoring. Takie testy to sposób na zabetonowanie kodu.
-A to wcale nie jest takie dobre - kod jeśli ma być dobry to musi być refaktorowalny.
+
+W istocie, im bardziej natrętne testy, czyli takie, które sprawdzaja np. czy odpowiednia metoda była z środka wywołana, tym trudniejszy
+refaktoring. Takie testy to tylko sposób na zabetonowanie kodu.
+A to wcale nie jest takie dobre! Kod jeśli ma być dobry to musi być refaktorowalny.
 A jak refaktorować kod - jesli każda zmiana wymusza przerycie testów?
 Dlatego testom tzw. [*londyńskim*]([http://programmers.stackexchange.com/questions/123627/what-are-the-london-and-chicago-schools-of-tdd) warto powiedzieć twarde i zdecydowane:
 > chyba nie...
@@ -233,7 +242,7 @@ Z wyników tej metody korzysta generator:
 ```    
 
 A  co jesli  by wymusić wywołanie filtrowania przez wprowadzenie typu:
-FilteredDataFormat.
+**FilteredDataFormat**.
 
 Wówczas mamy:
 ```
@@ -243,12 +252,13 @@ Wówczas mamy:
  ```
  public Either<GenerationProblem, GeneratedResult> generate(FilteredDataFormat filteredData) {
 ```
-I teraz nie da się łatwo o filtrowaniu zapomnieć - bo na straży stoi kompilator.     
-A co jest to narzędzie o wiele potężniejsze od testów - bo nie tylko 
-szybciej się wywali - również pisząc od razu widać co jest oczekiwane.
+I teraz nie da się łatwo o filtrowaniu zapomnieć, bo na straży stoi kompilator.     
+A  jest to narzędzie o wiele potężniejsze od testów, bo nie tylko 
+szybciej się wywali. Programista pisząc od razu widzi (po typach) co mu jest potrzebne.
+Działają wszystkie podpowiadacze składni!
 
-Ogólnie typy wygrywają nad testami - jeśli da się coś opisać typami.
-W zasadzie wszystko da sie opisać [typami](https://spin.atomicobject.com/2012/11/11/unifying-programming-and-math-the-dependent-type-revolution/) , tylko na razie  jest to przeważnie zbyt trudne.
+Ogólnie typy wygrywają nad testami - jeśli tylko da się coś opisać typami.
+I tu ciekawostka: wszystko da sie opisać [typami](https://spin.atomicobject.com/2012/11/11/unifying-programming-and-math-the-dependent-type-revolution/) , tylko na razie  jest to przeważnie zbyt trudne.
 Ale może, któregoś dnia dojdzie do tego, że napisanie testu to będzie po prostu przyznanie sie do porażki!
 Tak jak przyzwyczailismy sie już, że pisanie komentarzy to po prostu przyznanie:
 > nie umiem tego dobrze i jasno napisać - więc skomentuję
