@@ -220,7 +220,8 @@ Zasadniczo odpowiedź jest jedna - najlepiej tego nie testować.
 
 No bo co nas obchodzi czy metoda wywołała ten filter - czy nie.
 Istotne sa wyniki - sprawdźmy  i na chwilę wywalmy ten **filter**...
-``` Failures (2):
+```
+Failures (2):
     JUnit Jupiter:MagicServiceTests:magicServiceBasics():Case :(Left(CalculationProblem{inputProblem=None, generationProblem=Some(NOT_ENOUGH_DATA)}), too_short.csv)
       JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
       => org.opentest4j.AssertionFailedError: expected: <Left(CalculationProblem{inputProblem=None, generationProblem=Some(NOT_ENOUGH_DATA)})> but was: <Right(it.makes.me.angry.data.Output@5f558937)>
