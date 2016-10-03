@@ -1,6 +1,8 @@
 package it.makes.me.angry.producer;
 
 
+import javaslang.control.Option;
+
 public class RawData {
     public final String fileContent;
 
@@ -9,15 +11,14 @@ public class RawData {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return fileContent.equals(((RawData)o).fileContent);//TODO - does not conform to Object.equals  - null problem
+    public boolean equals(final Object o) {
+        return Option.of(o)
+                .map( right-> fileContent.equals(((RawData)right).fileContent))
+                .getOrElse(false);
     }
 
     @Override
     public int hashCode() {
         return fileContent.hashCode();
     }
-
-
-
 }

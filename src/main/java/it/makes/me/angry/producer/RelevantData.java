@@ -2,6 +2,7 @@ package it.makes.me.angry.producer;
 
 import javaslang.collection.Array;
 import javaslang.collection.List;
+import javaslang.control.Option;
 
 
 public final class RelevantData {
@@ -13,8 +14,9 @@ public final class RelevantData {
 
     @Override
     public boolean equals(Object o) {
-        RelevantData that = (RelevantData) o;
-        return rows.equals(that.rows); //TODO: does not fulfil contract of Object.equals
+        return Option.of(o)
+                .map( right-> rows.equals(((RelevantData)right).rows))
+                .getOrElse(false);
     }
 
     @Override
@@ -32,7 +34,9 @@ public final class RelevantData {
 
         @Override
         public boolean equals(Object dataRow) {
-            return dataColumns.equals(((DataRow)dataRow).dataColumns);
+            return Option.of(dataRow)
+                    .map( right-> dataColumns.equals(((DataRow)right).dataColumns))
+                    .getOrElse(false);
         }
 
         @Override

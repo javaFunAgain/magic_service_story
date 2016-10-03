@@ -24,9 +24,11 @@ public final class CalculationProblem {
     @Override
     public boolean equals(Object o) {
         CalculationProblem that = (CalculationProblem) o;
-
-        if (!inputProblem.equals(that.inputProblem)) return false;
-        return generationProblem.equals(that.generationProblem);
+        return Option.of( that).map (
+                right ->
+                    inputProblem.equals(that.inputProblem)
+                            && generationProblem.equals(that.generationProblem)
+        ).getOrElse(false);
     }
 
     @Override

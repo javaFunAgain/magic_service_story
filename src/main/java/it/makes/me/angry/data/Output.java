@@ -1,6 +1,7 @@
 package it.makes.me.angry.data;
 
-import java.math.BigDecimal;
+import javaslang.control.Option;
+
 
 public class Output {
     public final String value;
@@ -11,8 +12,9 @@ public class Output {
 
     @Override
     public boolean equals(Object o) {
-        Output output = (Output) o;
-        return value.equals(output.value);
+        return Option.of(o)
+                .map( right-> value.equals(((Output)right).value))
+                .getOrElse(false);
     }
 
     @Override
