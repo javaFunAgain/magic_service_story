@@ -12,8 +12,8 @@ public class RawData {
 
     @Override
     public boolean equals(final Object o) {
-        return Option.of(o)
-                .map( right-> fileContent.equals(((RawData)right).fileContent))
+        return Option.of((RawData)o)
+                .map( right-> fileContent.equals(right.fileContent))
                 .getOrElse(false);
     }
 
