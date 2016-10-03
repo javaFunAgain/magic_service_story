@@ -1,7 +1,6 @@
 package it.makes.me.angry.processors;
 
 import javaslang.collection.List;
-import javaslang.collection.Traversable;
 import javaslang.control.Option;
 
 public class AccessibleDataFormat {

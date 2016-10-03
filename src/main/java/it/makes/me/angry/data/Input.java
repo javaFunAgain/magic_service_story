@@ -1,6 +1,5 @@
 package it.makes.me.angry.data;
 
-import it.makes.me.angry.CalculationProblem;
 import it.makes.me.angry.producer.InputProblem;
 import javaslang.control.Either;
 import javaslang.control.Option;

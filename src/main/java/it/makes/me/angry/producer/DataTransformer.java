@@ -1,10 +1,6 @@
 package it.makes.me.angry.producer;
 
-import it.makes.me.angry.CalculationProblem;
 import it.makes.me.angry.processors.AccessibleDataFormat;
-import it.makes.me.angry.processors.GenerationProblem;
-import it.makes.me.angry.producer.InputProblem;
-import it.makes.me.angry.producer.RelevantData;
 import javaslang.collection.List;
 import javaslang.control.Either;
 import javaslang.control.Option;

@@ -1,8 +1,8 @@
 package it.makes.me.angry.processors;
 
 import it.makes.me.angry.data.Input;
-import it.makes.me.angry.producer.RawData;
 import it.makes.me.angry.producer.DataCollector;
+import it.makes.me.angry.producer.RawData;
 import javaslang.collection.Array;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -20,7 +20,6 @@ public class DataCollectorTests {
                             assertEquals(new RawData("nothing special"),
                                     theCollector.collectData(new Input("raw_file.csv")).get());
                         })
-                //TODO: We do not test Exception - because we do not want it at first place!
         );
     }
 }

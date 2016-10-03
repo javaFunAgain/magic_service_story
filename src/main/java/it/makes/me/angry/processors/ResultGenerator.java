@@ -1,6 +1,5 @@
 package it.makes.me.angry.processors;
 
-import it.makes.me.angry.CalculationProblem;
 import javaslang.control.Either;
 
 import java.math.BigDecimal;

@@ -1,10 +1,14 @@
 package it.makes.me.angry;
 
 
-import it.makes.me.angry.data.*;
+import it.makes.me.angry.data.Input;
+import it.makes.me.angry.data.Output;
 import it.makes.me.angry.output.OutputFormatter;
-import it.makes.me.angry.processors.*;
-import it.makes.me.angry.producer.*;
+import it.makes.me.angry.processors.AccessibleDataFormat;
+import it.makes.me.angry.processors.DataProcessor;
+import it.makes.me.angry.processors.GeneratedResult;
+import it.makes.me.angry.producer.DataProducer;
+import it.makes.me.angry.producer.InputProblem;
 import javaslang.control.Either;
 
 public class MagicService {
