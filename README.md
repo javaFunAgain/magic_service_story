@@ -182,6 +182,84 @@ Dodatkowo cały czas bardzo ładnie podpowiada nam kompilator.
 Nie musimy pamiętać np. żeby jakiś konstruktor miał X parametrów itp.,
 jak się ilośc parametrów nie zgodzi to się nie skompiluje - tak powinno być!!!
 
+## Jak testować *internalsy*
+(Ogólnie nie wiem co znaczy *internalsy*, ale podoba mi się ta nazwa).
+W jednym z komentarzy do wątku pojawiło się zagadnienie testowania czy np. metoda filter się wykona.
+Chodzi konkretnie o to:
+```
+public class DataSelector {
+    public AccessibleDataFormat filter(AccessibleDataFormat accessibleData) {
+        return new AccessibleDataFormat(accessibleData
+                .rows
+                .filter(data -> data.type.eq(Option.some("GMINY WIEJSKIE")))
+                .filter( data -> data.events > 5000));
+    }
+}
+```
+Zasadniczo odpowiedź jest jedna - najlepiej tego nie testować.
+No bo co nas obchodzi czy metoda wywołała ten filter - czy nie.
+Istotne sa wyniki - sprawdźmy  i na chwilę wywalmy...
+``` Failures (2):
+    JUnit Jupiter:MagicServiceTests:magicServiceBasics():Case :(Left(CalculationProblem{inputProblem=None, generationProblem=Some(NOT_ENOUGH_DATA)}), too_short.csv)
+      JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
+      => org.opentest4j.AssertionFailedError: expected: <Left(CalculationProblem{inputProblem=None, generationProblem=Some(NOT_ENOUGH_DATA)})> but was: <Right(it.makes.me.angry.data.Output@5f558937)>
+    JUnit Jupiter:MagicServiceTests:magicServiceBasics():Case :(Right(it.makes.me.angry.data.Output@5a26340a), prabuty_poludniowe.csv)
+      JavaMethodSource [javaClass = 'it.makes.me.angry.MagicServiceTests', javaMethodName = 'magicServiceBasics', javaMethodParameterTypes = '']
+      => org.opentest4j.AssertionFailedError: expected: <Right(it.makes.me.angry.data.Output@5a26340a)> but was: <Right(it.makes.me.angry.data.Output@5d67657e)>
+```
+Czyli jak widać - dzięki temu, że napisalismy już odpowiednie testy mamy to sprawdzenie i nic więcej nie potrzeba!
+Chejk natręci - zostawcie  metody w spokoju! 
+Sprawdzacie input, output, a jak sobie metoda do tego doszła i co wywołała to jej sprawa.
+W istocie im bardziej natrętne testy, które sprawdzaja np. czy odpowiednia metoda była z środka wywołana, tym trudniejszy
+refaktoring. Takie testy to sposób na zabetonowanie kodu.
+A to wcale nie jest takie dobre - kod jeśli ma być dobry to musi być refaktorowalny.
+A jak refaktorować kod - jesli każda zmiana wymusza przerycie testów?
+Dlatego testom tzw. [*londyńskim*]([http://programmers.stackexchange.com/questions/123627/what-are-the-london-and-chicago-schools-of-tdd) warto powiedzieć twarde i zdecydowane:
+> chyba nie...
+
+# A może jednak
+A co jeśli z jakiś dziwnych powodów chcielibysmy upewnić się, że jednak filtrowanie zaszło?
+Istnieje lepsza metoda niż test!!!
+
+Popatrzmy na deklarację metody:
+```
+public class DataSelector {
+       public AccessibleDataFormat filter(AccessibleDataFormat accessibleData) 
+```
+ 
+Z wyników tej metody korzysta generator:
+```
+ public Either<GenerationProblem, GeneratedResult> generate(AccessibleDataFormat filteredData) {
+```    
+
+A  co jesli  by wymusić wywołanie filtrowania przez wprowadzenie typu:
+FilteredDataFormat.
+
+Wówczas mamy:
+```
+ public FilteredDataFormat filter(AccessibleDataFormat accessibleData) {
+```
+ oraz
+ ```
+ public Either<GenerationProblem, GeneratedResult> generate(FilteredDataFormat filteredData) {
+```
+I teraz nie da się łatwo o filtrowaniu zapomnieć - bo na straży stoi kompilator.     
+A co jest to narzędzie o wiele potężniejsze od testów - bo nie tylko 
+szybciej się wywali - również pisząc od razu widać co jest oczekiwane.
+
+Ogólnie typy wygrywają nad testami - jeśli da się coś opisać typami.
+W zasadzie wszystko da sie opisać [typami](https://spin.atomicobject.com/2012/11/11/unifying-programming-and-math-the-dependent-type-revolution/) , tylko na razie  jest to przeważnie zbyt trudne.
+Ale może, któregoś dnia dojdzie do tego, że napisanie testu to będzie po prostu przyznanie sie do porażki!
+Tak jak przyzwyczailismy sie już, że pisanie komentarzy to po prostu przyznanie:
+> nie umiem tego dobrze i jasno napisać - więc skomentuję
+
+ I na dziś tyle....
+ 
+ 
+
+
+
+
 
 
 # Poprzednie odcinki

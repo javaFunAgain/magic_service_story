@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 public class ResultGeneratorTests {
     @TestFactory
     Iterable<DynamicTest> dataSelectorTests() {
-        final AccessibleDataFormat inputList =  new AccessibleDataFormat(List.of(
+        final FilteredDataFormat inputList =  new FilteredDataFormat(List.of(
 
                 new AccessibleDataFormat.AccessibleDataRow("BUBU", Option.some("GMINY WIEJSKIE"), 5232, 145900),
                 new AccessibleDataFormat.AccessibleDataRow("ZUBU", Option.some("GMINY WIEJSKIE"), 6732, 148500))
